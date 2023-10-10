@@ -1,23 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Web.Models;
 using Web.Repos.Models;
 
-namespace Web.Models
+namespace Web.ViewModels
 {
-    [Table("Pelicula")]
-    public class Pelicula
+    public class PeliculaViewModel
     {
-        [Key]
-        [Column("ID")]
         public int Id { get; set; }
 
-        
+        [Required(ErrorMessage = "Por favor, ingresar la descripción.")]
         [Display(Name = "Descripción")]
-        [StringLength(50)]
         public string? Descripcion { get; set; }
-
-        [Display(Name = "Imagen")]
-        public string? ImagemPelicula { get; set; }
 
         [Display(Name = "Duración")]
         public int? Duracion { get; set; }
@@ -27,12 +21,12 @@ namespace Web.Models
 
         [Display(Name = "Género")]
         public int? GeneroRefId { get; set; }
-        [ForeignKey("GeneroRefId")]
+
         public virtual Genero? Genero { get; set; }
 
         [Display(Name = "Tipo")]
         public int? TipoRefId { get; set; }
-        [ForeignKey("TipoRefId")]
+
         public virtual Tipo? Tipo { get; set; }
 
         [Display(Name = "Subtitulo")]
@@ -41,14 +35,15 @@ namespace Web.Models
         public virtual Subtitulo? Subtitulo { get; set; }
 
         [Display(Name = "Fecha Estreno")]
-        [Column(TypeName = "smalldatetime")]
-        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime? FechaEstreno { get; set; }
 
         [Display(Name = "Fecha Registro")]
-        [Column(TypeName = "smalldatetime")]
         [DataType(DataType.Date)]
         public DateTime? FechaRegistro { get; set; }
+
+        [Required(ErrorMessage = "Por favor, seleccione un imagem.")]
+        [Display(Name = "Imagem Pelicula")]
+        public IFormFile Imagem { get; set; }
     }
 }

@@ -5,98 +5,98 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Web.Models;
 using Web.Repos;
-using Web.Repos.Models;
 
 namespace Web.Controllers
 {
-    public class GeneroController : Controller
+    public class SonidoController : Controller
     {
         private readonly CineUTNContext _context;
 
-        public GeneroController(CineUTNContext context)
+        public SonidoController(CineUTNContext context)
         {
             _context = context;
         }
 
-        // GET: Genero
+        // GET: Sonido
         public async Task<IActionResult> Index()
         {
             ViewBag.SignIn = true;
-            return _context.Generos != null ? 
-                          View(await _context.Generos.ToListAsync()) :
-                          Problem("Entity set 'CineUTNContext.Generos'  is null.");
+            return _context.Sonidos != null ? 
+                          View(await _context.Sonidos.ToListAsync()) :
+                          Problem("Entity set 'CineUTNContext.Sonidos'  is null.");
         }
 
-        // GET: Genero/Details/5
+        // GET: Sonido/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.Sonidos == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos
+            var sonido = await _context.Sonidos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genero == null)
+            if (sonido == null)
             {
                 return NotFound();
             }
 
-            return View(genero);
+            return View(sonido);
         }
 
-        // GET: Genero/Create
+        // GET: Sonido/Create
         public IActionResult Create()
         {
             ViewBag.SignIn = true;
             return View();
         }
 
-        // POST: Genero/Create
+        // POST: Sonido/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaRegistro")] Genero genero)
+        public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaRegistro")] Sonido sonido)
         {
             ViewBag.SignIn = true;
             if (ModelState.IsValid)
             {
-                _context.Add(genero);
+                _context.Add(sonido);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(genero);
+            return View(sonido);
         }
 
-        // GET: Genero/Edit/5
+        // GET: Sonido/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.Sonidos == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos.FindAsync(id);
-            if (genero == null)
+            var sonido = await _context.Sonidos.FindAsync(id);
+            if (sonido == null)
             {
                 return NotFound();
             }
-            return View(genero);
+            return View(sonido);
         }
 
-        // POST: Genero/Edit/5
+        // POST: Sonido/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaRegistro")] Genero genero)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaRegistro")] Sonido sonido)
         {
             ViewBag.SignIn = true;
-            if (id != genero.Id)
+            if (id != sonido.Id)
             {
                 return NotFound();
             }
@@ -105,12 +105,12 @@ namespace Web.Controllers
             {
                 try
                 {
-                    _context.Update(genero);
+                    _context.Update(sonido);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GeneroExists(genero.Id))
+                    if (!SonidoExists(sonido.Id))
                     {
                         return NotFound();
                     }
@@ -121,51 +121,51 @@ namespace Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(genero);
+            return View(sonido);
         }
 
-        // GET: Genero/Delete/5
+        // GET: Sonido/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.Sonidos == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos
+            var sonido = await _context.Sonidos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genero == null)
+            if (sonido == null)
             {
                 return NotFound();
             }
 
-            return View(genero);
+            return View(sonido);
         }
 
-        // POST: Genero/Delete/5
+        // POST: Sonido/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             ViewBag.SignIn = true;
-            if (_context.Generos == null)
+            if (_context.Sonidos == null)
             {
-                return Problem("Entity set 'CineUTNContext.Generos'  is null.");
+                return Problem("Entity set 'CineUTNContext.Sonidos'  is null.");
             }
-            var genero = await _context.Generos.FindAsync(id);
-            if (genero != null)
+            var sonido = await _context.Sonidos.FindAsync(id);
+            if (sonido != null)
             {
-                _context.Generos.Remove(genero);
+                _context.Sonidos.Remove(sonido);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GeneroExists(int id)
+        private bool SonidoExists(int id)
         {
-          return (_context.Generos?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Sonidos?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

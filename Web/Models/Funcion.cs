@@ -4,6 +4,7 @@ using Web.Repos.Models;
 
 namespace Web.Models
 {
+    [Table("Funcion")]
     public class Funcion
     {
         [Key]

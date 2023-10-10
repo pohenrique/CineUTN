@@ -1,4 +1,4 @@
-﻿@model Web.Models.Pelicula
+﻿@model Web.ViewModels.PeliculaViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form enctype="multipart/form-data" asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -19,9 +19,12 @@
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImagemPelicula" class="control-label"></label>
-                <input asp-for="ImagemPelicula" class="form-control" />
-                <span asp-validation-for="ImagemPelicula" class="text-danger"></span>
+                <label asp-for="Imagem" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="Imagem" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Seleccione el archivo</label>
+                </div>
+                <span asp-validation-for="Imagem" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Duracion" class="control-label"></label>
@@ -44,9 +47,9 @@
                 <span asp-validation-for="TipoRefId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Subtitulada" class="control-label"></label>
-                <input asp-for="Subtitulada" class="form-control" />
-                <span asp-validation-for="Subtitulada" class="text-danger"></span>
+                <label asp-for="SubtituloRefId" class="control-label"></label>
+                <select asp-for="SubtituloRefId" class="form-control" asp-items="ViewBag.SubtituloRefId"></select>
+                <span asp-validation-for="SubtituloRefId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaEstreno" class="control-label"></label>
@@ -71,4 +74,11 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
 }

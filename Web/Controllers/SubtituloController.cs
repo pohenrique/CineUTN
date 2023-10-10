@@ -5,98 +5,98 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Web.Models;
 using Web.Repos;
-using Web.Repos.Models;
 
 namespace Web.Controllers
 {
-    public class GeneroController : Controller
+    public class SubtituloController : Controller
     {
         private readonly CineUTNContext _context;
 
-        public GeneroController(CineUTNContext context)
+        public SubtituloController(CineUTNContext context)
         {
             _context = context;
         }
 
-        // GET: Genero
+        // GET: Subtitulo
         public async Task<IActionResult> Index()
         {
             ViewBag.SignIn = true;
-            return _context.Generos != null ? 
-                          View(await _context.Generos.ToListAsync()) :
-                          Problem("Entity set 'CineUTNContext.Generos'  is null.");
+            return _context.Subtitulos != null ? 
+                          View(await _context.Subtitulos.ToListAsync()) :
+                          Problem("Entity set 'CineUTNContext.Subtitulos'  is null.");
         }
 
-        // GET: Genero/Details/5
+        // GET: Subtitulo/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.Subtitulos == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos
+            var subtitulo = await _context.Subtitulos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genero == null)
+            if (subtitulo == null)
             {
                 return NotFound();
             }
 
-            return View(genero);
+            return View(subtitulo);
         }
 
-        // GET: Genero/Create
+        // GET: Subtitulo/Create
         public IActionResult Create()
         {
             ViewBag.SignIn = true;
             return View();
         }
 
-        // POST: Genero/Create
+        // POST: Subtitulo/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaRegistro")] Genero genero)
+        public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaRegistro")] Subtitulo subtitulo)
         {
             ViewBag.SignIn = true;
             if (ModelState.IsValid)
             {
-                _context.Add(genero);
+                _context.Add(subtitulo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(genero);
+            return View(subtitulo);
         }
 
-        // GET: Genero/Edit/5
+        // GET: Subtitulo/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.Subtitulos == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos.FindAsync(id);
-            if (genero == null)
+            var subtitulo = await _context.Subtitulos.FindAsync(id);
+            if (subtitulo == null)
             {
                 return NotFound();
             }
-            return View(genero);
+            return View(subtitulo);
         }
 
-        // POST: Genero/Edit/5
+        // POST: Subtitulo/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaRegistro")] Genero genero)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaRegistro")] Subtitulo subtitulo)
         {
             ViewBag.SignIn = true;
-            if (id != genero.Id)
+            if (id != subtitulo.Id)
             {
                 return NotFound();
             }
@@ -105,12 +105,12 @@ namespace Web.Controllers
             {
                 try
                 {
-                    _context.Update(genero);
+                    _context.Update(subtitulo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GeneroExists(genero.Id))
+                    if (!SubtituloExists(subtitulo.Id))
                     {
                         return NotFound();
                     }
@@ -121,51 +121,51 @@ namespace Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(genero);
+            return View(subtitulo);
         }
 
-        // GET: Genero/Delete/5
+        // GET: Subtitulo/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.Subtitulos == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos
+            var subtitulo = await _context.Subtitulos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genero == null)
+            if (subtitulo == null)
             {
                 return NotFound();
             }
 
-            return View(genero);
+            return View(subtitulo);
         }
 
-        // POST: Genero/Delete/5
+        // POST: Subtitulo/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             ViewBag.SignIn = true;
-            if (_context.Generos == null)
+            if (_context.Subtitulos == null)
             {
-                return Problem("Entity set 'CineUTNContext.Generos'  is null.");
+                return Problem("Entity set 'CineUTNContext.Subtitulos'  is null.");
             }
-            var genero = await _context.Generos.FindAsync(id);
-            if (genero != null)
+            var subtitulo = await _context.Subtitulos.FindAsync(id);
+            if (subtitulo != null)
             {
-                _context.Generos.Remove(genero);
+                _context.Subtitulos.Remove(subtitulo);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GeneroExists(int id)
+        private bool SubtituloExists(int id)
         {
-          return (_context.Generos?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Subtitulos?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

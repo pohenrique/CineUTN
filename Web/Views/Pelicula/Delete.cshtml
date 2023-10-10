@@ -12,16 +12,16 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
+            Película
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImagemPelicula)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImagemPelicula)
+            <img src="~/images/@Model.ImagemPelicula"
+                 class="rounded-start"
+                 height="150" width="150"
+                 asp-append-version="true" />
+            <br>
+            @Model.Descripcion
+  
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Duracion)
@@ -48,10 +48,10 @@
             @Html.DisplayFor(model => model.Tipo.Descripcion)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Subtitulada)
+            @Html.DisplayNameFor(model => model.Subtitulo)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Subtitulada)
+            @Html.DisplayFor(model => model.Subtitulo.Descripcion)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FechaEstreno)

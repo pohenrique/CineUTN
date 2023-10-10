@@ -5,98 +5,105 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Web.Models;
 using Web.Repos;
-using Web.Repos.Models;
 
 namespace Web.Controllers
 {
-    public class GeneroController : Controller
+    public class SalaController : Controller
     {
         private readonly CineUTNContext _context;
 
-        public GeneroController(CineUTNContext context)
+        public SalaController(CineUTNContext context)
         {
             _context = context;
         }
 
-        // GET: Genero
+        // GET: Sala
         public async Task<IActionResult> Index()
         {
             ViewBag.SignIn = true;
-            return _context.Generos != null ? 
-                          View(await _context.Generos.ToListAsync()) :
-                          Problem("Entity set 'CineUTNContext.Generos'  is null.");
+            var cineUTNContext = _context.Salas.Include(s => s.Sonido).Include(s => s.Tipo);
+            return View(await cineUTNContext.ToListAsync());
         }
 
-        // GET: Genero/Details/5
+        // GET: Sala/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.Salas == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos
+            var sala = await _context.Salas
+                .Include(s => s.Sonido)
+                .Include(s => s.Tipo)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genero == null)
+            if (sala == null)
             {
                 return NotFound();
             }
 
-            return View(genero);
+            return View(sala);
         }
 
-        // GET: Genero/Create
+        // GET: Sala/Create
         public IActionResult Create()
         {
             ViewBag.SignIn = true;
+            ViewData["SonidoRefId"] = new SelectList(_context.Sonidos, "Id", "Descripcion");
+            ViewData["TipoRefId"] = new SelectList(_context.Tipos, "Id", "Descripcion");
             return View();
         }
 
-        // POST: Genero/Create
+        // POST: Sala/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaRegistro")] Genero genero)
+        public async Task<IActionResult> Create([Bind("Id,Descripcion,TipoRefId,SonidoRefId,FechaRegistro")] Sala sala)
         {
             ViewBag.SignIn = true;
             if (ModelState.IsValid)
             {
-                _context.Add(genero);
+                _context.Add(sala);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(genero);
+            ViewData["SonidoRefId"] = new SelectList(_context.Sonidos, "Id", "Descripcion", sala.SonidoRefId);
+            ViewData["TipoRefId"] = new SelectList(_context.Tipos, "Id", "Descripcion", sala.TipoRefId);
+            return View(sala);
         }
 
-        // GET: Genero/Edit/5
+        // GET: Sala/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.Salas == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos.FindAsync(id);
-            if (genero == null)
+            var sala = await _context.Salas.FindAsync(id);
+            if (sala == null)
             {
                 return NotFound();
             }
-            return View(genero);
+            ViewData["SonidoRefId"] = new SelectList(_context.Sonidos, "Id", "Descripcion", sala.SonidoRefId);
+            ViewData["TipoRefId"] = new SelectList(_context.Tipos, "Id", "Descripcion", sala.TipoRefId);
+            return View(sala);
         }
 
-        // POST: Genero/Edit/5
+        // POST: Sala/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaRegistro")] Genero genero)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,TipoRefId,SonidoRefId,FechaRegistro")] Sala sala)
         {
             ViewBag.SignIn = true;
-            if (id != genero.Id)
+            if (id != sala.Id)
             {
                 return NotFound();
             }
@@ -105,12 +112,12 @@ namespace Web.Controllers
             {
                 try
                 {
-                    _context.Update(genero);
+                    _context.Update(sala);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GeneroExists(genero.Id))
+                    if (!SalaExists(sala.Id))
                     {
                         return NotFound();
                     }
@@ -121,51 +128,55 @@ namespace Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(genero);
+            ViewData["SonidoRefId"] = new SelectList(_context.Sonidos, "Id", "Descripcion", sala.SonidoRefId);
+            ViewData["TipoRefId"] = new SelectList(_context.Tipos, "Id", "Descripcion", sala.TipoRefId);
+            return View(sala);
         }
 
-        // GET: Genero/Delete/5
+        // GET: Sala/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.Salas == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos
+            var sala = await _context.Salas
+                .Include(s => s.Sonido)
+                .Include(s => s.Tipo)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genero == null)
+            if (sala == null)
             {
                 return NotFound();
             }
 
-            return View(genero);
+            return View(sala);
         }
 
-        // POST: Genero/Delete/5
+        // POST: Sala/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             ViewBag.SignIn = true;
-            if (_context.Generos == null)
+            if (_context.Salas == null)
             {
-                return Problem("Entity set 'CineUTNContext.Generos'  is null.");
+                return Problem("Entity set 'CineUTNContext.Salas'  is null.");
             }
-            var genero = await _context.Generos.FindAsync(id);
-            if (genero != null)
+            var sala = await _context.Salas.FindAsync(id);
+            if (sala != null)
             {
-                _context.Generos.Remove(genero);
+                _context.Salas.Remove(sala);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GeneroExists(int id)
+        private bool SalaExists(int id)
         {
-          return (_context.Generos?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Salas?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

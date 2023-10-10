@@ -6,6 +6,7 @@ namespace Web.Models
 {
 
     // Efectivo 1000, Tarjeta Debito Macro x 1000, Tarjeta Debito HSBC x 1050, Tarjeta Credito 1100.
+    [Table("ListaPrecio")]
     public class ListaPrecio
     {
         [Key]

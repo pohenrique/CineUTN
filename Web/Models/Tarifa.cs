@@ -7,7 +7,7 @@ namespace Web.Models
     //Dias de Semama + lista de precio Efectivo + Aplicar Descuento si hay
     //Fines de Semana + lista de precio Tarjeta Debito, Aplicar Descuento si hay
     //Promo Miercoles, Promo Bancos, Estudiantes, Invitación Especial...
-
+    [Table("Tarifa")]
     public class Tarifa
     {
 

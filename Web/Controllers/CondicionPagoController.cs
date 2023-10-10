@@ -5,98 +5,98 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Web.Models;
 using Web.Repos;
-using Web.Repos.Models;
 
 namespace Web.Controllers
 {
-    public class GeneroController : Controller
+    public class CondicionPagoController : Controller
     {
         private readonly CineUTNContext _context;
 
-        public GeneroController(CineUTNContext context)
+        public CondicionPagoController(CineUTNContext context)
         {
             _context = context;
         }
 
-        // GET: Genero
+        // GET: CondicionPago
         public async Task<IActionResult> Index()
         {
             ViewBag.SignIn = true;
-            return _context.Generos != null ? 
-                          View(await _context.Generos.ToListAsync()) :
-                          Problem("Entity set 'CineUTNContext.Generos'  is null.");
+            return _context.CondicionPagos != null ? 
+                          View(await _context.CondicionPagos.ToListAsync()) :
+                          Problem("Entity set 'CineUTNContext.CondicionPagos'  is null.");
         }
 
-        // GET: Genero/Details/5
+        // GET: CondicionPago/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.CondicionPagos == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos
+            var condicionPago = await _context.CondicionPagos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genero == null)
+            if (condicionPago == null)
             {
                 return NotFound();
             }
 
-            return View(genero);
+            return View(condicionPago);
         }
 
-        // GET: Genero/Create
+        // GET: CondicionPago/Create
         public IActionResult Create()
         {
             ViewBag.SignIn = true;
             return View();
         }
 
-        // POST: Genero/Create
+        // POST: CondicionPago/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaRegistro")] Genero genero)
+        public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaRegistro")] CondicionPago condicionPago)
         {
             ViewBag.SignIn = true;
             if (ModelState.IsValid)
             {
-                _context.Add(genero);
+                _context.Add(condicionPago);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(genero);
+            return View(condicionPago);
         }
 
-        // GET: Genero/Edit/5
+        // GET: CondicionPago/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.CondicionPagos == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos.FindAsync(id);
-            if (genero == null)
+            var condicionPago = await _context.CondicionPagos.FindAsync(id);
+            if (condicionPago == null)
             {
                 return NotFound();
             }
-            return View(genero);
+            return View(condicionPago);
         }
 
-        // POST: Genero/Edit/5
+        // POST: CondicionPago/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaRegistro")] Genero genero)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaRegistro")] CondicionPago condicionPago)
         {
             ViewBag.SignIn = true;
-            if (id != genero.Id)
+            if (id != condicionPago.Id)
             {
                 return NotFound();
             }
@@ -105,12 +105,12 @@ namespace Web.Controllers
             {
                 try
                 {
-                    _context.Update(genero);
+                    _context.Update(condicionPago);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GeneroExists(genero.Id))
+                    if (!CondicionPagoExists(condicionPago.Id))
                     {
                         return NotFound();
                     }
@@ -121,51 +121,51 @@ namespace Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(genero);
+            return View(condicionPago);
         }
 
-        // GET: Genero/Delete/5
+        // GET: CondicionPago/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.CondicionPagos == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos
+            var condicionPago = await _context.CondicionPagos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genero == null)
+            if (condicionPago == null)
             {
                 return NotFound();
             }
 
-            return View(genero);
+            return View(condicionPago);
         }
 
-        // POST: Genero/Delete/5
+        // POST: CondicionPago/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             ViewBag.SignIn = true;
-            if (_context.Generos == null)
+            if (_context.CondicionPagos == null)
             {
-                return Problem("Entity set 'CineUTNContext.Generos'  is null.");
+                return Problem("Entity set 'CineUTNContext.CondicionPagos'  is null.");
             }
-            var genero = await _context.Generos.FindAsync(id);
-            if (genero != null)
+            var condicionPago = await _context.CondicionPagos.FindAsync(id);
+            if (condicionPago != null)
             {
-                _context.Generos.Remove(genero);
+                _context.CondicionPagos.Remove(condicionPago);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GeneroExists(int id)
+        private bool CondicionPagoExists(int id)
         {
-          return (_context.Generos?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.CondicionPagos?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

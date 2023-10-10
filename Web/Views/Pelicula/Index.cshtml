@@ -4,7 +4,6 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,11 +12,9 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
+                Película
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagemPelicula)
-            </th>
+       
             <th>
                 @Html.DisplayNameFor(model => model.Duracion)
             </th>
@@ -31,7 +28,7 @@
                 @Html.DisplayNameFor(model => model.Tipo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Subtitulada)
+                @Html.DisplayNameFor(model => model.Subtitulo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FechaEstreno)
@@ -45,12 +42,16 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+   
             <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
+                    <img src="~/images/@item.ImagemPelicula"
+                         class="rounded-start"
+                         height="150" width="150"
+                         asp-append-version="true" />
+                         <br>
+                    @item.Descripcion
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagemPelicula)
-            </td>
+         
             <td>
                 @Html.DisplayFor(modelItem => item.Duracion)
             </td>
@@ -64,7 +65,7 @@
                 @Html.DisplayFor(modelItem => item.Tipo.Descripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Subtitulada)
+                @Html.DisplayFor(modelItem => item.Subtitulo.Descripcion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaEstreno)

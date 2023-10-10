@@ -17,10 +17,16 @@ public partial class CineUTNContext : DbContext
     {
     }
 
+
+    public virtual DbSet<CondicionPago> CondicionPagos { get; set; }
+    public virtual DbSet<Funcion> Funciones { get; set; }
+    public virtual DbSet<ListaPrecio> ListaPrecios { get; set; }
+    public virtual DbSet<Tarifa> Tarifas { get; set; }
+    public virtual DbSet<Subtitulo> Subtitulos { get; set; }
+    public virtual DbSet<Sonido> Sonidos { get; set; }
+    public virtual DbSet<Sala> Salas { get; set; }
     public virtual DbSet<Genero> Generos { get; set; }
-
     public virtual DbSet<Tipo> Tipos { get; set; }
-
     public virtual DbSet<Pelicula> Peliculas { get; set; }
 
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

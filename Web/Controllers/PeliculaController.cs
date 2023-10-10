@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Web.Models;
 using Web.Repos;
+using Web.ViewModels;
 
 namespace Web.Controllers
 {
     public class PeliculaController : Controller
     {
         private readonly CineUTNContext _context;
-
-        public PeliculaController(CineUTNContext context)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public PeliculaController(CineUTNContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
+
         }
 
         // GET: Pelicula
@@ -54,6 +58,7 @@ namespace Web.Controllers
             ViewBag.SignIn = true;
             ViewData["GeneroRefId"] = new SelectList(_context.Generos, "Id", "Descripcion");
             ViewData["TipoRefId"] = new SelectList(_context.Tipos, "Id", "Descripcion");
+            ViewData["SubtituloRefId"] = new SelectList(_context.Subtitulos, "Id", "Descripcion");
             return View();
         }
 
@@ -62,18 +67,50 @@ namespace Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descripcion,ImagemPelicula,Duracion,Clasificacion,GeneroRefId,TipoRefId,Subtitulada,FechaEstreno,FechaRegistro")] Pelicula pelicula)
+        public async Task<IActionResult> Create(PeliculaViewModel model)
         {
             ViewBag.SignIn = true;
+            string uniqueFileName = UploadedFile(model);
             if (ModelState.IsValid)
             {
+                Pelicula pelicula = new Pelicula()
+                {
+                    ImagemPelicula = uniqueFileName,
+                    Clasificacion = model.Clasificacion,
+                    Descripcion = model.Descripcion,    
+                    Duracion = model.Duracion,  
+                    FechaEstreno = model.FechaEstreno,  
+                    FechaRegistro = model.FechaRegistro,
+                    GeneroRefId = model.GeneroRefId,
+                    TipoRefId = model.TipoRefId,
+                    SubtituloRefId = model.SubtituloRefId,
+                    
+                };
                 _context.Add(pelicula);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GeneroRefId"] = new SelectList(_context.Generos, "Id", "Descripcion", pelicula.GeneroRefId);
-            ViewData["TipoRefId"] = new SelectList(_context.Tipos, "Id", "Descripcion", pelicula.TipoRefId);
-            return View(pelicula);
+            ViewData["GeneroRefId"] = new SelectList(_context.Generos, "Id", "Descripcion", model.GeneroRefId);
+            ViewData["TipoRefId"] = new SelectList(_context.Tipos, "Id", "Descripcion", model.TipoRefId);
+            ViewData["SubtituloRefId"] = new SelectList(_context.Subtitulos, "Id", "Descripcion");
+            return View(model);
+        }
+
+        private string UploadedFile(PeliculaViewModel model)
+        {
+            string uniqueFileName = null;
+
+            if (model.Imagem != null)
+            {
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Imagem.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.Imagem.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
 
         // GET: Pelicula/Edit/5
@@ -86,13 +123,29 @@ namespace Web.Controllers
             }
 
             var pelicula = await _context.Peliculas.FindAsync(id);
+
+            PeliculaViewModel peliculaViewModel = new PeliculaViewModel()
+            {
+                
+                Clasificacion = pelicula.Clasificacion,
+                Descripcion = pelicula.Descripcion,
+                Duracion = pelicula.Duracion,
+                FechaEstreno = pelicula.FechaEstreno,
+                FechaRegistro = pelicula.FechaRegistro,
+                GeneroRefId = pelicula.GeneroRefId,
+                TipoRefId = pelicula.TipoRefId,
+                SubtituloRefId = pelicula.SubtituloRefId,
+
+            };
+
             if (pelicula == null)
             {
                 return NotFound();
             }
             ViewData["GeneroRefId"] = new SelectList(_context.Generos, "Id", "Descripcion", pelicula.GeneroRefId);
             ViewData["TipoRefId"] = new SelectList(_context.Tipos, "Id", "Descripcion", pelicula.TipoRefId);
-            return View(pelicula);
+            ViewData["SubtituloRefId"] = new SelectList(_context.Subtitulos, "Id", "Descripcion");
+            return View(peliculaViewModel);
         }
 
         // POST: Pelicula/Edit/5
@@ -100,10 +153,11 @@ namespace Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,ImagemPelicula,Duracion,Clasificacion,GeneroRefId,TipoRefId,Subtitulada,FechaEstreno,FechaRegistro")] Pelicula pelicula)
+        public async Task<IActionResult> Edit(int id, PeliculaViewModel model)
         {
             ViewBag.SignIn = true;
-            if (id != pelicula.Id)
+            string uniqueFileName = UploadedFile(model);
+            if (id != model.Id)
             {
                 return NotFound();
             }
@@ -112,12 +166,26 @@ namespace Web.Controllers
             {
                 try
                 {
+                    Pelicula pelicula = new Pelicula()
+                    {
+                        ImagemPelicula = uniqueFileName,
+                        Clasificacion = model.Clasificacion,
+                        Descripcion = model.Descripcion,
+                        Duracion = model.Duracion,
+                        FechaEstreno = model.FechaEstreno,
+                        FechaRegistro = model.FechaRegistro,
+                        GeneroRefId = model.GeneroRefId,
+                        TipoRefId = model.TipoRefId,
+                        SubtituloRefId = model.SubtituloRefId,
+
+                    };
+
                     _context.Update(pelicula);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PeliculaExists(pelicula.Id))
+                    if (!PeliculaExists(model.Id))
                     {
                         return NotFound();
                     }
@@ -128,9 +196,10 @@ namespace Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GeneroRefId"] = new SelectList(_context.Generos, "Id", "Descripcion", pelicula.GeneroRefId);
-            ViewData["TipoRefId"] = new SelectList(_context.Tipos, "Id", "Descripcion", pelicula.TipoRefId);
-            return View(pelicula);
+            ViewData["GeneroRefId"] = new SelectList(_context.Generos, "Id", "Descripcion", model.GeneroRefId);
+            ViewData["TipoRefId"] = new SelectList(_context.Tipos, "Id", "Descripcion", model.TipoRefId);
+            ViewData["SubtituloRefId"] = new SelectList(_context.Subtitulos, "Id", "Descripcion");
+            return View(model);
         }
 
         // GET: Pelicula/Delete/5

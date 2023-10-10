@@ -5,98 +5,101 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Web.Models;
 using Web.Repos;
-using Web.Repos.Models;
 
 namespace Web.Controllers
 {
-    public class GeneroController : Controller
+    public class TarifaController : Controller
     {
         private readonly CineUTNContext _context;
 
-        public GeneroController(CineUTNContext context)
+        public TarifaController(CineUTNContext context)
         {
             _context = context;
         }
 
-        // GET: Genero
+        // GET: Tarifa
         public async Task<IActionResult> Index()
         {
             ViewBag.SignIn = true;
-            return _context.Generos != null ? 
-                          View(await _context.Generos.ToListAsync()) :
-                          Problem("Entity set 'CineUTNContext.Generos'  is null.");
+            var cineUTNContext = _context.Tarifas.Include(t => t.ListaPrecio);
+            return View(await cineUTNContext.ToListAsync());
         }
 
-        // GET: Genero/Details/5
+        // GET: Tarifa/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.Tarifas == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos
+            var tarifa = await _context.Tarifas
+                .Include(t => t.ListaPrecio)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genero == null)
+            if (tarifa == null)
             {
                 return NotFound();
             }
 
-            return View(genero);
+            return View(tarifa);
         }
 
-        // GET: Genero/Create
+        // GET: Tarifa/Create
         public IActionResult Create()
         {
             ViewBag.SignIn = true;
+            ViewData["ListaPrecioRefId"] = new SelectList(_context.ListaPrecios, "Id", "Descripcion");
             return View();
         }
 
-        // POST: Genero/Create
+        // POST: Tarifa/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaRegistro")] Genero genero)
+        public async Task<IActionResult> Create([Bind("Id,Descripcion,PorcentajeDescuento,ListaPrecioRefId,FechaRegistro")] Tarifa tarifa)
         {
             ViewBag.SignIn = true;
             if (ModelState.IsValid)
             {
-                _context.Add(genero);
+                _context.Add(tarifa);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(genero);
+            ViewData["ListaPrecioRefId"] = new SelectList(_context.ListaPrecios, "Id", "Descripcion", tarifa.ListaPrecioRefId);
+            return View(tarifa);
         }
 
-        // GET: Genero/Edit/5
+        // GET: Tarifa/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.Tarifas == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos.FindAsync(id);
-            if (genero == null)
+            var tarifa = await _context.Tarifas.FindAsync(id);
+            if (tarifa == null)
             {
                 return NotFound();
             }
-            return View(genero);
+            ViewData["ListaPrecioRefId"] = new SelectList(_context.ListaPrecios, "Id", "Descripcion", tarifa.ListaPrecioRefId);
+            return View(tarifa);
         }
 
-        // POST: Genero/Edit/5
+        // POST: Tarifa/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaRegistro")] Genero genero)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,PorcentajeDescuento,ListaPrecioRefId,FechaRegistro")] Tarifa tarifa)
         {
             ViewBag.SignIn = true;
-            if (id != genero.Id)
+            if (id != tarifa.Id)
             {
                 return NotFound();
             }
@@ -105,12 +108,12 @@ namespace Web.Controllers
             {
                 try
                 {
-                    _context.Update(genero);
+                    _context.Update(tarifa);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GeneroExists(genero.Id))
+                    if (!TarifaExists(tarifa.Id))
                     {
                         return NotFound();
                     }
@@ -121,51 +124,53 @@ namespace Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(genero);
+            ViewData["ListaPrecioRefId"] = new SelectList(_context.ListaPrecios, "Id", "Descripcion", tarifa.ListaPrecioRefId);
+            return View(tarifa);
         }
 
-        // GET: Genero/Delete/5
+        // GET: Tarifa/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             ViewBag.SignIn = true;
-            if (id == null || _context.Generos == null)
+            if (id == null || _context.Tarifas == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos
+            var tarifa = await _context.Tarifas
+                .Include(t => t.ListaPrecio)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genero == null)
+            if (tarifa == null)
             {
                 return NotFound();
             }
 
-            return View(genero);
+            return View(tarifa);
         }
 
-        // POST: Genero/Delete/5
+        // POST: Tarifa/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             ViewBag.SignIn = true;
-            if (_context.Generos == null)
+            if (_context.Tarifas == null)
             {
-                return Problem("Entity set 'CineUTNContext.Generos'  is null.");
+                return Problem("Entity set 'CineUTNContext.Tarifas'  is null.");
             }
-            var genero = await _context.Generos.FindAsync(id);
-            if (genero != null)
+            var tarifa = await _context.Tarifas.FindAsync(id);
+            if (tarifa != null)
             {
-                _context.Generos.Remove(genero);
+                _context.Tarifas.Remove(tarifa);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GeneroExists(int id)
+        private bool TarifaExists(int id)
         {
-          return (_context.Generos?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Tarifas?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
