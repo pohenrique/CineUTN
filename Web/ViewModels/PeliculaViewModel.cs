@@ -42,8 +42,10 @@ namespace Web.ViewModels
         [DataType(DataType.Date)]
         public DateTime? FechaRegistro { get; set; }
 
-        [Required(ErrorMessage = "Por favor, seleccione un imagem.")]
         [Display(Name = "Imagem Pelicula")]
         public IFormFile Imagem { get; set; }
+
+        [Display(Name = "Imagen")]
+        public string? ImagemPelicula { get; set; }
     }
 }

@@ -166,19 +166,18 @@ namespace Web.Controllers
             {
                 try
                 {
-                    Pelicula pelicula = new Pelicula()
-                    {
-                        ImagemPelicula = uniqueFileName,
-                        Clasificacion = model.Clasificacion,
-                        Descripcion = model.Descripcion,
-                        Duracion = model.Duracion,
-                        FechaEstreno = model.FechaEstreno,
-                        FechaRegistro = model.FechaRegistro,
-                        GeneroRefId = model.GeneroRefId,
-                        TipoRefId = model.TipoRefId,
-                        SubtituloRefId = model.SubtituloRefId,
+                    var pelicula = await _context.Peliculas.FindAsync(id);
 
-                    };
+
+                    pelicula.ImagemPelicula = uniqueFileName;
+                    pelicula.Clasificacion = model.Clasificacion;
+                    pelicula.Descripcion = model.Descripcion;
+                    pelicula.Duracion = model.Duracion;
+                    pelicula.FechaEstreno = model.FechaEstreno;
+                    pelicula.FechaRegistro = model.FechaRegistro;
+                    pelicula.GeneroRefId = model.GeneroRefId;
+                    pelicula.TipoRefId = model.TipoRefId;
+                    pelicula.SubtituloRefId = model.SubtituloRefId;
 
                     _context.Update(pelicula);
                     await _context.SaveChangesAsync();

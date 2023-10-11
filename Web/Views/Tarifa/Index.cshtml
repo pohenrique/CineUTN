@@ -13,13 +13,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
+                Tarifa
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PorcentajeDescuento)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ListaPrecio)
+            </th>
+            <th>
+                Precio
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FechaRegistro)
@@ -34,11 +37,14 @@
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PorcentajeDescuento)
+                @Html.DisplayFor(modelItem => item.PorcentajeDescuento) %
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ListaPrecio.Descripcion)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrecioConDescuento)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaRegistro)
             </td>

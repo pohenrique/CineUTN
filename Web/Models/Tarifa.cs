@@ -19,13 +19,36 @@ namespace Web.Models
         [StringLength(50)]
         public string? Descripcion { get; set; }
 
-        public int? PorcentajeDescuento { get; set; }
+        [Required(ErrorMessage = "Por favor, ingresar un porcentaje")]
+        public int PorcentajeDescuento { get; set; }
 
         [Display(Name = "Lista de Precio")]
         public int? ListaPrecioRefId { get; set; }
         [ForeignKey("ListaPrecioRefId")]
         public virtual ListaPrecio? ListaPrecio { get; set; }
 
+        [NotMapped]
+        public decimal PrecioConDescuento
+        {
+
+            get
+            {
+                if (this.ListaPrecio != null)
+                {
+                    return (this.ListaPrecio.Precio - (this.ListaPrecio.Precio * this.PorcentajeDescuento / 100));
+                }
+                else
+                {
+                    return 0;
+                }
+                
+            }
+            set
+            {
+                PrecioConDescuento = 0;
+            }
+        }
+     
         [Column(TypeName = "smalldatetime")]
         public DateTime? FechaRegistro { get; set; }
     }

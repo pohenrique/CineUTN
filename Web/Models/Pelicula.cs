@@ -49,6 +49,7 @@ namespace Web.Models
         [Display(Name = "Fecha Registro")]
         [Column(TypeName = "smalldatetime")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime? FechaRegistro { get; set; }
     }
 }

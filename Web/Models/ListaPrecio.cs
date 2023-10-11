@@ -29,9 +29,9 @@ namespace Web.Models
         [ForeignKey("CondicionPagoRefId")]
         public virtual CondicionPago? CondicionPago { get; set; }
 
-        [Display(Name = "Precio")]
-        [DataType(DataType.Currency)]
-        [Column(TypeName = "money")]
+        [Required(ErrorMessage = "Por favor, ingresar el precio.")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Precio { get; set; }
 
         [Column(TypeName = "smalldatetime")]
