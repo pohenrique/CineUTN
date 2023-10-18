@@ -27,28 +27,12 @@ namespace Web.Models
         [ForeignKey("ListaPrecioRefId")]
         public virtual ListaPrecio? ListaPrecio { get; set; }
 
-        [NotMapped]
-        public decimal PrecioConDescuento
-        {
+        [Display(Name = "Precio")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal? TarifaPrecio { get; set; }
 
-            get
-            {
-                if (this.ListaPrecio != null)
-                {
-                    return (this.ListaPrecio.Precio - (this.ListaPrecio.Precio * this.PorcentajeDescuento / 100));
-                }
-                else
-                {
-                    return 0;
-                }
-                
-            }
-            set
-            {
-                PrecioConDescuento = 0;
-            }
-        }
-     
+        [Display(Name = "Fecha Registro")]
         [Column(TypeName = "smalldatetime")]
         public DateTime? FechaRegistro { get; set; }
     }

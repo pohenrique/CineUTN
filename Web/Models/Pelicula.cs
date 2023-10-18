@@ -16,6 +16,16 @@ namespace Web.Models
         [StringLength(50)]
         public string? Descripcion { get; set; }
 
+        [NotMapped]
+        public string DescripcionTipo
+        {
+            get
+            {
+                return string.Format("{0} - {1}", Descripcion, Tipo.Descripcion);
+            }
+        }
+
+
         [Display(Name = "Imagen")]
         public string? ImagemPelicula { get; set; }
 

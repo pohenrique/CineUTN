@@ -1,0 +1,79 @@
+﻿@model Web.Models.Programar
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Programar</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="FechaHoraFuncion" class="control-label"></label>
+                <input asp-for="FechaHoraFuncion" class="form-control" />
+                <span asp-validation-for="FechaHoraFuncion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PeliculaRefId" class="control-label"></label>
+                <select asp-for="PeliculaRefId" class="form-control" asp-items="ViewBag.PeliculaRefId"></select>
+                <span asp-validation-for="PeliculaRefId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SalaRefId" class="control-label"></label>
+                <select asp-for="SalaRefId" class="form-control" asp-items="ViewBag.SalaRefId"></select>
+                <span asp-validation-for="SalaRefId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tarifa1RefId" class="control-label"></label>
+                <select asp-for="Tarifa1RefId" class="form-control" asp-items="ViewBag.Tarifa1RefId"></select>
+                <span asp-validation-for="Tarifa1RefId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tarifa2RefId" class="control-label"></label>
+                <select asp-for="Tarifa2RefId" class="form-control" asp-items="ViewBag.Tarifa2RefId"></select>
+                <span asp-validation-for="Tarifa2RefId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tarifa3RefId" class="control-label"></label>
+                <select asp-for="Tarifa3RefId" class="form-control" asp-items="ViewBag.Tarifa3RefId"></select>
+                <span asp-validation-for="Tarifa3RefId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tarifa4RefId" class="control-label"></label>
+                <select asp-for="Tarifa4RefId" class="form-control" asp-items="ViewBag.Tarifa4RefId"></select>
+                <span asp-validation-for="Tarifa4RefId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tarifa5RefId" class="control-label"></label>
+                <select asp-for="Tarifa5RefId" class="form-control" asp-items="ViewBag.Tarifa5RefId"></select>
+                <span asp-validation-for="Tarifa5RefId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tarifa6RefId" class="control-label"></label>
+                <select asp-for="Tarifa6RefId" class="form-control" asp-items="ViewBag.Tarifa6RefId"></select>
+                <span asp-validation-for="Tarifa6RefId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaRegistro" class="control-label"></label>
+                <input asp-for="FechaRegistro" class="form-control" />
+                <span asp-validation-for="FechaRegistro" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

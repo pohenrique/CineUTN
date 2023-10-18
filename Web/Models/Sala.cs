@@ -15,6 +15,8 @@ namespace Web.Models
         [StringLength(50)]
         public string? Descripcion { get; set; }
 
+       
+
         [Display(Name = "Tipo")]
         public int? TipoRefId { get; set; }
         [ForeignKey("TipoRefId")]
@@ -29,5 +31,6 @@ namespace Web.Models
         [Column(TypeName = "smalldatetime")]
         [DataType(DataType.Date)]
         public DateTime? FechaRegistro { get; set; }
-    }
+
+            }
 }

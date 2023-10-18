@@ -1,0 +1,134 @@
+﻿@model Web.Models.Programar
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="card">
+    <div class="card-header">
+        <b>Programar Funciones</b>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <span class="text-danger">@Html.ValidationMessageFor(m => m.ValidationError)</span>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="FechaHoraFuncion" class="control-label"></label>
+                    <input asp-for="FechaHoraFuncion" class="form-control" />
+                    <span asp-validation-for="FechaHoraFuncion" class="text-danger"></span>
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="PeliculaRefId" class="control-label"></label>
+                    <select asp-for="PeliculaRefId" class="form-control" asp-items="ViewBag.PeliculaRefId">
+                        <option>Seleccione una pelicula</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="SalaRefId" class="control-label"></label>
+                    <select asp-for="SalaRefId" class="form-control" asp-items="ViewBag.SalaRefId">
+                        <option>Seleccione una sala</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="FechaRegistro" class="control-label"></label>
+                    <input asp-for="FechaRegistro" class="form-control" />
+                    <span asp-validation-for="FechaRegistro" class="text-danger"></span>
+                </div>
+            </div>
+         
+            <div class="row justify-content-md-center p-2 m-2">
+               Tarifas
+            </div>
+            <div class="container col-12">
+                <div class="col-md-12 p-0 m-0 bg-light">
+                    <table id="tblSolicitudDespachoArticulo" style="border: 1px solid #dcdcdc;" class="table table-sm CodesTable">
+                       @*  <thead>
+                            <tr>
+                                <th>
+                                    
+                                </th>
+                                <th>
+                                    
+                                </th>
+                            </tr>
+                        </thead> *@
+                        <tbody>
+                           
+                                <tr>
+                                    <td>
+                                        <label asp-for="Tarifa1RefId" class="control-label"></label>
+                                        <select asp-for="Tarifa1RefId" class="form-control" asp-items="ViewBag.Tarifa1RefId">
+                                            <option>Seleccione una tarifa</option>
+                                        </select>
+                                    </td>
+
+                                    <td>
+                                        <label asp-for="Tarifa2RefId" class="control-label"></label>
+                            
+                                        <select asp-for="Tarifa2RefId" class="form-control" asp-items="ViewBag.Tarifa2RefId">
+                                        <option>Seleccione una tarifa</option>
+                                        </select>
+
+                                    </td>
+                                </tr>
+
+                            <tr>
+                                <td>
+                                    <label asp-for="Tarifa3RefId" class="control-label"></label>
+                         
+                                    <select asp-for="Tarifa3RefId" class="form-control" asp-items="ViewBag.Tarifa3RefId">
+                                        <option>Seleccione una tarifa</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <label asp-for="Tarifa4RefId" class="control-label"></label>
+                                    
+                                    <select asp-for="Tarifa4RefId" class="form-control" asp-items="ViewBag.Tarifa4RefId">
+                                        <option>Seleccione una tarifa</option>
+                                    </select>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label asp-for="Tarifa5RefId" class="control-label"></label>
+                                   
+                                    <select asp-for="Tarifa5RefId" class="form-control" asp-items="ViewBag.Tarifa5RefId">
+                                        <option>Seleccione una tarifa</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <label asp-for="Tarifa6RefId" class="control-label"></label>
+                          
+                                    <select asp-for="Tarifa6RefId" class="form-control" asp-items="ViewBag.Tarifa6RefId">
+                                        <option>Seleccione una tarifa</option>
+                                    </select>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                 
+                </div>
+            </div>
+           
+            <div class="card-footer row justify-content-md-center">
+                &nbsp;<input type="submit" value="Create" class="btn btn-primary" />&nbsp;
+                &nbsp;<a class="btn btn-info" asp-action="Index">Volver</a>&nbsp;
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

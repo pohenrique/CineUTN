@@ -28,6 +28,7 @@ public partial class CineUTNContext : DbContext
     public virtual DbSet<Genero> Generos { get; set; }
     public virtual DbSet<Tipo> Tipos { get; set; }
     public virtual DbSet<Pelicula> Peliculas { get; set; }
+    public virtual DbSet<Programar> Programaciones { get; set; }
 
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //    => optionsBuilder.UseSqlServer("name=conexion");

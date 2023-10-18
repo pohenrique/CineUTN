@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Web.Models.Programar>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Función
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pelicula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sala)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tarifa1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tarifa2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tarifa3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tarifa4)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tarifa5)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tarifa6)
+            </th>
+         
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @Html.DisplayFor(modelItem => item.FechaHoraFuncion)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Pelicula.Descripcion) - @Html.DisplayFor(modelItem => item.Pelicula.Tipo.Descripcion)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Sala.Descripcion) - @Html.DisplayFor(modelItem => item.Sala.Tipo.Descripcion)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Tarifa1.Descripcion) - $ @Html.DisplayFor(modelItem => item.Tarifa1.ListaPrecio.Precio)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Tarifa2.Descripcion) - $ @Html.DisplayFor(modelItem => item.Tarifa2.ListaPrecio.Precio)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Tarifa3.Descripcion) - $ @Html.DisplayFor(modelItem => item.Tarifa3.ListaPrecio.Precio)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Tarifa4.Descripcion) - $ @Html.DisplayFor(modelItem => item.Tarifa4.ListaPrecio.Precio)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Tarifa5.Descripcion) - $ @Html.DisplayFor(modelItem => item.Tarifa5.ListaPrecio.Precio)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Tarifa6.Descripcion) - $ @Html.DisplayFor(modelItem => item.Tarifa6.ListaPrecio.Precio)
+            </td>
+        
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

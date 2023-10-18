@@ -65,6 +65,14 @@ namespace Web.Controllers
             ViewBag.SignIn = true;
             if (ModelState.IsValid)
             {
+                if (tarifa.ListaPrecioRefId != null && tarifa.ListaPrecioRefId != 0)
+                {
+                    var listaPrecio = await _context.ListaPrecios.FindAsync(tarifa.ListaPrecioRefId);
+                    tarifa.TarifaPrecio = listaPrecio.Precio - (listaPrecio.Precio * tarifa.PorcentajeDescuento / 100);
+                }
+                else
+                    tarifa.TarifaPrecio = 0;
+
                 _context.Add(tarifa);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -108,6 +116,14 @@ namespace Web.Controllers
             {
                 try
                 {
+                    if (tarifa.ListaPrecioRefId != null && tarifa.ListaPrecioRefId != 0)
+                    {
+                        var listaPrecio = await _context.ListaPrecios.FindAsync(tarifa.ListaPrecioRefId);
+                        tarifa.TarifaPrecio = listaPrecio.Precio - (listaPrecio.Precio * tarifa.PorcentajeDescuento / 100);
+                    }
+                    else
+                        tarifa.TarifaPrecio = 0;
+
                     _context.Update(tarifa);
                     await _context.SaveChangesAsync();
                 }

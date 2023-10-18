@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web.Repos;
 
@@ -11,9 +12,11 @@ using Web.Repos;
 namespace Web.Migrations
 {
     [DbContext(typeof(CineUTNContext))]
-    partial class CineUTNContextModelSnapshot : ModelSnapshot
+    [Migration("20231012131741_add_programacion_funciones")]
+    partial class add_programacion_funciones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -321,7 +324,7 @@ namespace Web.Migrations
                     b.Property<int>("PorcentajeDescuento")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("TarifaPrecio")
+                    b.Property<decimal>("TarifaPrecio")
                         .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
