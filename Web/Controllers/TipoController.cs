@@ -22,7 +22,7 @@ namespace Web.Controllers
         // GET: Tipo
         public async Task<IActionResult> Index()
         {
-            ViewBag.SignIn = true;
+             
             return _context.Tipos != null ? 
                           View(await _context.Tipos.ToListAsync()) :
                           Problem("Entity set 'CineUTNContext.Tipos'  is null.");
@@ -31,7 +31,7 @@ namespace Web.Controllers
         // GET: Tipo/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Tipos == null)
             {
                 return NotFound();
@@ -50,7 +50,7 @@ namespace Web.Controllers
         // GET: Tipo/Create
         public IActionResult Create()
         {
-            ViewBag.SignIn = true;
+             
 
             return View();
         }
@@ -62,7 +62,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaRegistro")] Tipo tipo)
         {
-            ViewBag.SignIn = true;
+             
             if (ModelState.IsValid)
             {
                 _context.Add(tipo);
@@ -75,7 +75,7 @@ namespace Web.Controllers
         // GET: Tipo/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Tipos == null)
             {
                 return NotFound();
@@ -96,7 +96,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaRegistro")] Tipo tipo)
         {
-            ViewBag.SignIn = true;
+             
             if (id != tipo.Id)
             {
                 return NotFound();
@@ -128,7 +128,7 @@ namespace Web.Controllers
         // GET: Tipo/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Tipos == null)
             {
                 return NotFound();
@@ -149,7 +149,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            ViewBag.SignIn = true;
+             
             if (_context.Tipos == null)
             {
                 return Problem("Entity set 'CineUTNContext.Tipos'  is null.");

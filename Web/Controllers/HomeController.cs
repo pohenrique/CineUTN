@@ -15,7 +15,7 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.SignIn = true;
+             
             return View();
         }
 

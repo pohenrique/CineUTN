@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Web.Repos;
+using Microsoft.AspNetCore.Identity;
+using Web.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,14 @@ builder.Services.AddDbContext<CineUTNContext>(
             options.UseSqlServer(builder.Configuration.GetConnectionString("conexion"));
         }
     );
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
+
+builder.Services.AddDefaultIdentity<ApplicationUser>(
+    options => 
+    options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 var app = builder.Build();
 
@@ -28,6 +38,8 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=SignIn}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();    
 
 app.Run();

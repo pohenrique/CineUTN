@@ -26,7 +26,7 @@ namespace Web.Controllers
         // GET: Pelicula
         public async Task<IActionResult> Index()
         {
-            ViewBag.SignIn = true;
+             
             var cineUTNContext = _context.Peliculas.Include(p => p.Genero).Include(p => p.Tipo);
             return View(await cineUTNContext.ToListAsync());
         }
@@ -34,7 +34,7 @@ namespace Web.Controllers
         // GET: Pelicula/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Peliculas == null)
             {
                 return NotFound();
@@ -55,7 +55,7 @@ namespace Web.Controllers
         // GET: Pelicula/Create
         public IActionResult Create()
         {
-            ViewBag.SignIn = true;
+             
             ViewData["GeneroRefId"] = new SelectList(_context.Generos, "Id", "Descripcion");
             ViewData["TipoRefId"] = new SelectList(_context.Tipos, "Id", "Descripcion");
             ViewData["SubtituloRefId"] = new SelectList(_context.Subtitulos, "Id", "Descripcion");
@@ -69,7 +69,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PeliculaViewModel model)
         {
-            ViewBag.SignIn = true;
+             
             string uniqueFileName = UploadedFile(model);
             if (ModelState.IsValid)
             {
@@ -116,7 +116,7 @@ namespace Web.Controllers
         // GET: Pelicula/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Peliculas == null)
             {
                 return NotFound();
@@ -155,7 +155,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, PeliculaViewModel model)
         {
-            ViewBag.SignIn = true;
+             
             string uniqueFileName = UploadedFile(model);
             if (id != model.Id)
             {
@@ -204,7 +204,7 @@ namespace Web.Controllers
         // GET: Pelicula/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Peliculas == null)
             {
                 return NotFound();
@@ -227,7 +227,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            ViewBag.SignIn = true;
+             
             if (_context.Peliculas == null)
             {
                 return Problem("Entity set 'CineUTNContext.Peliculas'  is null.");

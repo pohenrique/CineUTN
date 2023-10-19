@@ -22,7 +22,7 @@ namespace Web.Controllers
         // GET: Programar
         public async Task<IActionResult> Index()
         {
-            ViewBag.SignIn = true;
+             
             var cineUTNContext = _context.Programaciones
                 .Include(p => p.Pelicula)
                 .Include(p => p.Pelicula.Tipo)
@@ -48,7 +48,7 @@ namespace Web.Controllers
         // GET: Programar/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Programaciones == null)
             {
                 return NotFound();
@@ -75,7 +75,7 @@ namespace Web.Controllers
         // GET: Programar/Create
         public IActionResult Create()
         {
-            ViewBag.SignIn = true;
+             
 
             var salas = _context.Salas
                 .Include(p => p.Tipo)
@@ -111,7 +111,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FechaHoraFuncion,PeliculaRefId,SalaRefId,Tarifa1RefId,Tarifa2RefId,Tarifa3RefId,Tarifa4RefId,Tarifa5RefId,Tarifa6RefId,FechaRegistro")] Programar programar)
         {
-            ViewBag.SignIn = true;
+             
 
             var coincideTipoSalaPelicula = true;
             if (programar.PeliculaRefId.HasValue && programar.SalaRefId.HasValue)
@@ -163,7 +163,7 @@ namespace Web.Controllers
         // GET: Programar/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Programaciones == null)
             {
                 return NotFound();
@@ -208,7 +208,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FechaHoraFuncion,PeliculaRefId,SalaRefId,Tarifa1RefId,Tarifa2RefId,Tarifa3RefId,Tarifa4RefId,Tarifa5RefId,Tarifa6RefId,FechaRegistro")] Programar programar)
         {
-            ViewBag.SignIn = true;
+             
             if (id != programar.Id)
             {
                 return NotFound();
@@ -264,7 +264,7 @@ namespace Web.Controllers
         // GET: Programar/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Programaciones == null)
             {
                 return NotFound();
@@ -293,7 +293,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            ViewBag.SignIn = true;
+             
             if (_context.Programaciones == null)
             {
                 return Problem("Entity set 'CineUTNContext.Programaciones'  is null.");

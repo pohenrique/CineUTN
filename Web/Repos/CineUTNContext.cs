@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Web.Areas.Identity.Data;
 using Web.Models;
 using Web.Repos.Models;
 
@@ -40,3 +42,6 @@ public partial class CineUTNContext : DbContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
+
+
+

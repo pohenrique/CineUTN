@@ -22,7 +22,7 @@ namespace Web.Controllers
         // GET: Subtitulo
         public async Task<IActionResult> Index()
         {
-            ViewBag.SignIn = true;
+             
             return _context.Subtitulos != null ? 
                           View(await _context.Subtitulos.ToListAsync()) :
                           Problem("Entity set 'CineUTNContext.Subtitulos'  is null.");
@@ -31,7 +31,7 @@ namespace Web.Controllers
         // GET: Subtitulo/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Subtitulos == null)
             {
                 return NotFound();
@@ -50,7 +50,7 @@ namespace Web.Controllers
         // GET: Subtitulo/Create
         public IActionResult Create()
         {
-            ViewBag.SignIn = true;
+             
             return View();
         }
 
@@ -61,7 +61,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaRegistro")] Subtitulo subtitulo)
         {
-            ViewBag.SignIn = true;
+             
             if (ModelState.IsValid)
             {
                 _context.Add(subtitulo);
@@ -74,7 +74,7 @@ namespace Web.Controllers
         // GET: Subtitulo/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Subtitulos == null)
             {
                 return NotFound();
@@ -95,7 +95,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaRegistro")] Subtitulo subtitulo)
         {
-            ViewBag.SignIn = true;
+             
             if (id != subtitulo.Id)
             {
                 return NotFound();
@@ -127,7 +127,7 @@ namespace Web.Controllers
         // GET: Subtitulo/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Subtitulos == null)
             {
                 return NotFound();
@@ -148,7 +148,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            ViewBag.SignIn = true;
+             
             if (_context.Subtitulos == null)
             {
                 return Problem("Entity set 'CineUTNContext.Subtitulos'  is null.");

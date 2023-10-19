@@ -22,7 +22,7 @@ namespace Web.Controllers
         // GET: ListaPrecio
         public async Task<IActionResult> Index()
         {
-            ViewBag.SignIn = true;
+             
             var cineUTNContext = _context.ListaPrecios.Include(l => l.CondicionPago);
             return View(await cineUTNContext.ToListAsync());
         }
@@ -30,7 +30,7 @@ namespace Web.Controllers
         // GET: ListaPrecio/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.ListaPrecios == null)
             {
                 return NotFound();
@@ -50,7 +50,7 @@ namespace Web.Controllers
         // GET: ListaPrecio/Create
         public IActionResult Create()
         {
-            ViewBag.SignIn = true;
+             
             ViewData["CondicionPagoRefId"] = new SelectList(_context.CondicionPagos, "Id", "Descripcion");
             return View();
         }
@@ -62,7 +62,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaHasta,CondicionPagoRefId,Precio,FechaRegistro")] ListaPrecio listaPrecio)
         {
-            ViewBag.SignIn = true;
+             
             if (ModelState.IsValid)
             {
                 _context.Add(listaPrecio);
@@ -76,7 +76,7 @@ namespace Web.Controllers
         // GET: ListaPrecio/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.ListaPrecios == null)
             {
                 return NotFound();
@@ -98,7 +98,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaHasta,CondicionPagoRefId,Precio,FechaRegistro")] ListaPrecio listaPrecio)
         {
-            ViewBag.SignIn = true;
+             
             if (id != listaPrecio.Id)
             {
                 return NotFound();
@@ -131,7 +131,7 @@ namespace Web.Controllers
         // GET: ListaPrecio/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.ListaPrecios == null)
             {
                 return NotFound();
@@ -153,7 +153,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            ViewBag.SignIn = true;
+             
             if (_context.ListaPrecios == null)
             {
                 return Problem("Entity set 'CineUTNContext.ListaPrecios'  is null.");

@@ -22,7 +22,6 @@ namespace Web.Controllers
         // GET: CondicionPago
         public async Task<IActionResult> Index()
         {
-            ViewBag.SignIn = true;
             return _context.CondicionPagos != null ? 
                           View(await _context.CondicionPagos.ToListAsync()) :
                           Problem("Entity set 'CineUTNContext.CondicionPagos'  is null.");
@@ -31,7 +30,6 @@ namespace Web.Controllers
         // GET: CondicionPago/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            ViewBag.SignIn = true;
             if (id == null || _context.CondicionPagos == null)
             {
                 return NotFound();
@@ -50,7 +48,6 @@ namespace Web.Controllers
         // GET: CondicionPago/Create
         public IActionResult Create()
         {
-            ViewBag.SignIn = true;
             return View();
         }
 
@@ -61,7 +58,6 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaRegistro")] CondicionPago condicionPago)
         {
-            ViewBag.SignIn = true;
             if (ModelState.IsValid)
             {
                 _context.Add(condicionPago);
@@ -74,7 +70,6 @@ namespace Web.Controllers
         // GET: CondicionPago/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.SignIn = true;
             if (id == null || _context.CondicionPagos == null)
             {
                 return NotFound();
@@ -95,7 +90,6 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaRegistro")] CondicionPago condicionPago)
         {
-            ViewBag.SignIn = true;
             if (id != condicionPago.Id)
             {
                 return NotFound();
@@ -127,7 +121,6 @@ namespace Web.Controllers
         // GET: CondicionPago/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewBag.SignIn = true;
             if (id == null || _context.CondicionPagos == null)
             {
                 return NotFound();
@@ -148,7 +141,6 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            ViewBag.SignIn = true;
             if (_context.CondicionPagos == null)
             {
                 return Problem("Entity set 'CineUTNContext.CondicionPagos'  is null.");

@@ -22,7 +22,6 @@ namespace Web.Controllers
         // GET: Genero
         public async Task<IActionResult> Index()
         {
-            ViewBag.SignIn = true;
             return _context.Generos != null ? 
                           View(await _context.Generos.ToListAsync()) :
                           Problem("Entity set 'CineUTNContext.Generos'  is null.");
@@ -31,7 +30,6 @@ namespace Web.Controllers
         // GET: Genero/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            ViewBag.SignIn = true;
             if (id == null || _context.Generos == null)
             {
                 return NotFound();
@@ -50,7 +48,7 @@ namespace Web.Controllers
         // GET: Genero/Create
         public IActionResult Create()
         {
-            ViewBag.SignIn = true;
+             
             return View();
         }
 
@@ -61,7 +59,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Descripcion,FechaRegistro")] Genero genero)
         {
-            ViewBag.SignIn = true;
+             
             if (ModelState.IsValid)
             {
                 _context.Add(genero);
@@ -74,7 +72,7 @@ namespace Web.Controllers
         // GET: Genero/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Generos == null)
             {
                 return NotFound();
@@ -95,7 +93,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,FechaRegistro")] Genero genero)
         {
-            ViewBag.SignIn = true;
+             
             if (id != genero.Id)
             {
                 return NotFound();
@@ -127,7 +125,7 @@ namespace Web.Controllers
         // GET: Genero/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewBag.SignIn = true;
+             
             if (id == null || _context.Generos == null)
             {
                 return NotFound();
@@ -148,7 +146,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            ViewBag.SignIn = true;
+             
             if (_context.Generos == null)
             {
                 return Problem("Entity set 'CineUTNContext.Generos'  is null.");
