@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Web.Repos;
-using Microsoft.AspNetCore.Identity;
 using Web.Areas.Identity.Data;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +22,12 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(
     options => 
     options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = builder.Configuration.GetSection("Authentication:Google:ClientId").Value;
+    googleOptions.ClientSecret = builder.Configuration.GetSection("Authentication:Google:ClientSecret").Value;
+});
 
 var app = builder.Build();
 
