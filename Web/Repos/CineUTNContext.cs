@@ -32,12 +32,18 @@ public partial class CineUTNContext : DbContext
     public virtual DbSet<Pelicula> Peliculas { get; set; }
     public virtual DbSet<Programar> Programaciones { get; set; }
 
+    public DbSet<Pedido> Pedidos { get; set; }
+    public DbSet<PedidoItem> PedidoItens { get; set; }
+
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //    => optionsBuilder.UseSqlServer("name=conexion");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         OnModelCreatingPartial(modelBuilder);
+
+        modelBuilder.Entity<Pedido>().Property(t => t.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<PedidoItem>().Property(t => t.Id).ValueGeneratedOnAdd();
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

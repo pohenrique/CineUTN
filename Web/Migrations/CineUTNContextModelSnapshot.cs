@@ -17,7 +17,7 @@ namespace Web.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "7.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -112,6 +112,54 @@ namespace Web.Migrations
                     b.HasIndex("CondicionPagoRefId");
 
                     b.ToTable("ListaPrecio");
+                });
+
+            modelBuilder.Entity("Web.Models.Pedido", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsUrgent")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pedidos");
+                });
+
+            modelBuilder.Entity("Web.Models.PedidoItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("PedidoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PedidoId");
+
+                    b.ToTable("PedidoItens");
                 });
 
             modelBuilder.Entity("Web.Models.Pelicula", b =>
@@ -405,6 +453,13 @@ namespace Web.Migrations
                     b.Navigation("CondicionPago");
                 });
 
+            modelBuilder.Entity("Web.Models.PedidoItem", b =>
+                {
+                    b.HasOne("Web.Models.Pedido", null)
+                        .WithMany("Items")
+                        .HasForeignKey("PedidoId");
+                });
+
             modelBuilder.Entity("Web.Models.Pelicula", b =>
                 {
                     b.HasOne("Web.Repos.Models.Genero", "Genero")
@@ -499,6 +554,11 @@ namespace Web.Migrations
                         .HasForeignKey("ListaPrecioRefId");
 
                     b.Navigation("ListaPrecio");
+                });
+
+            modelBuilder.Entity("Web.Models.Pedido", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

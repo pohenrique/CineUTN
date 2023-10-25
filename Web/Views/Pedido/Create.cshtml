@@ -1,0 +1,65 @@
+﻿@model Web.Models.Pedido
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>Pedido</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsUrgent" /> @Html.DisplayNameFor(model => model.IsUrgent)
+                    </label>
+                </div>
+            </div>
+            <div id="PedidoItemsContainer">
+                @Html.EditorFor(model => model.Items)
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <input class="btn btn-default" type="button" id="btnAdd" value="Add product" />
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Create" id="submit" class="btn btn-default" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $("#btnAdd").on('click', function () {
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/Pedido/AddPedidoItem',
+                success: function (partialView) {
+                    console.log("partialView: " + partialView);
+                    $('#PedidoItemsContainer').html(partialView);
+                }
+            });
+        });
+    </script>
+}

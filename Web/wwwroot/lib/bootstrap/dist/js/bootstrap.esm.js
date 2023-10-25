@@ -1092,8 +1092,8 @@ const DefaultType$a = {
   wrap: 'boolean',
   touch: 'boolean'
 };
-const ORDER_NEXT = 'next';
-const ORDER_PREV = 'prev';
+const Pedido_NEXT = 'next';
+const Pedido_PREV = 'prev';
 const DIRECTION_LEFT = 'left';
 const DIRECTION_RIGHT = 'right';
 const KEY_TO_DIRECTION = {
@@ -1168,7 +1168,7 @@ class Carousel extends BaseComponent {
 
 
   next() {
-    this._slide(ORDER_NEXT);
+    this._slide(Pedido_NEXT);
   }
 
   nextWhenVisible() {
@@ -1180,7 +1180,7 @@ class Carousel extends BaseComponent {
   }
 
   prev() {
-    this._slide(ORDER_PREV);
+    this._slide(Pedido_PREV);
   }
 
   pause(event) {
@@ -1234,9 +1234,9 @@ class Carousel extends BaseComponent {
       return;
     }
 
-    const order = index > activeIndex ? ORDER_NEXT : ORDER_PREV;
+    const Pedido = index > activeIndex ? Pedido_NEXT : Pedido_PREV;
 
-    this._slide(order, this._items[index]);
+    this._slide(Pedido, this._items[index]);
   } // Private
 
 
@@ -1355,8 +1355,8 @@ class Carousel extends BaseComponent {
     return this._items.indexOf(element);
   }
 
-  _getItemByOrder(order, activeElement) {
-    const isNext = order === ORDER_NEXT;
+  _getItemByPedido(Pedido, activeElement) {
+    const isNext = Pedido === Pedido_NEXT;
     return getNextActiveElement(this._items, activeElement, isNext, this._config.wrap);
   }
 
@@ -1407,23 +1407,23 @@ class Carousel extends BaseComponent {
     }
   }
 
-  _slide(directionOrOrder, element) {
-    const order = this._directionToOrder(directionOrOrder);
+  _slide(directionOrPedido, element) {
+    const Pedido = this._directionToPedido(directionOrPedido);
 
     const activeElement = SelectorEngine.findOne(SELECTOR_ACTIVE_ITEM, this._element);
 
     const activeElementIndex = this._getItemIndex(activeElement);
 
-    const nextElement = element || this._getItemByOrder(order, activeElement);
+    const nextElement = element || this._getItemByPedido(Pedido, activeElement);
 
     const nextElementIndex = this._getItemIndex(nextElement);
 
     const isCycling = Boolean(this._interval);
-    const isNext = order === ORDER_NEXT;
+    const isNext = Pedido === Pedido_NEXT;
     const directionalClassName = isNext ? CLASS_NAME_START : CLASS_NAME_END;
-    const orderClassName = isNext ? CLASS_NAME_NEXT : CLASS_NAME_PREV;
+    const PedidoClassName = isNext ? CLASS_NAME_NEXT : CLASS_NAME_PREV;
 
-    const eventDirectionName = this._orderToDirection(order);
+    const eventDirectionName = this._PedidoToDirection(Pedido);
 
     if (nextElement && nextElement.classList.contains(CLASS_NAME_ACTIVE$2)) {
       this._isSliding = false;
@@ -1465,15 +1465,15 @@ class Carousel extends BaseComponent {
     };
 
     if (this._element.classList.contains(CLASS_NAME_SLIDE)) {
-      nextElement.classList.add(orderClassName);
+      nextElement.classList.add(PedidoClassName);
       reflow(nextElement);
       activeElement.classList.add(directionalClassName);
       nextElement.classList.add(directionalClassName);
 
       const completeCallBack = () => {
-        nextElement.classList.remove(directionalClassName, orderClassName);
+        nextElement.classList.remove(directionalClassName, PedidoClassName);
         nextElement.classList.add(CLASS_NAME_ACTIVE$2);
-        activeElement.classList.remove(CLASS_NAME_ACTIVE$2, orderClassName, directionalClassName);
+        activeElement.classList.remove(CLASS_NAME_ACTIVE$2, PedidoClassName, directionalClassName);
         this._isSliding = false;
         setTimeout(triggerSlidEvent, 0);
       };
@@ -1491,28 +1491,28 @@ class Carousel extends BaseComponent {
     }
   }
 
-  _directionToOrder(direction) {
+  _directionToPedido(direction) {
     if (![DIRECTION_RIGHT, DIRECTION_LEFT].includes(direction)) {
       return direction;
     }
 
     if (isRTL()) {
-      return direction === DIRECTION_LEFT ? ORDER_PREV : ORDER_NEXT;
+      return direction === DIRECTION_LEFT ? Pedido_PREV : Pedido_NEXT;
     }
 
-    return direction === DIRECTION_LEFT ? ORDER_NEXT : ORDER_PREV;
+    return direction === DIRECTION_LEFT ? Pedido_NEXT : Pedido_PREV;
   }
 
-  _orderToDirection(order) {
-    if (![ORDER_NEXT, ORDER_PREV].includes(order)) {
-      return order;
+  _PedidoToDirection(Pedido) {
+    if (![Pedido_NEXT, Pedido_PREV].includes(Pedido)) {
+      return Pedido;
     }
 
     if (isRTL()) {
-      return order === ORDER_PREV ? DIRECTION_LEFT : DIRECTION_RIGHT;
+      return Pedido === Pedido_PREV ? DIRECTION_LEFT : DIRECTION_RIGHT;
     }
 
-    return order === ORDER_PREV ? DIRECTION_RIGHT : DIRECTION_LEFT;
+    return Pedido === Pedido_PREV ? DIRECTION_RIGHT : DIRECTION_LEFT;
   } // Static
 
 

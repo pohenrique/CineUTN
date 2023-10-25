@@ -1096,8 +1096,8 @@
     wrap: 'boolean',
     touch: 'boolean'
   };
-  const ORDER_NEXT = 'next';
-  const ORDER_PREV = 'prev';
+  const Pedido_NEXT = 'next';
+  const Pedido_PREV = 'prev';
   const DIRECTION_LEFT = 'left';
   const DIRECTION_RIGHT = 'right';
   const KEY_TO_DIRECTION = {
@@ -1172,7 +1172,7 @@
 
 
     next() {
-      this._slide(ORDER_NEXT);
+      this._slide(Pedido_NEXT);
     }
 
     nextWhenVisible() {
@@ -1184,7 +1184,7 @@
     }
 
     prev() {
-      this._slide(ORDER_PREV);
+      this._slide(Pedido_PREV);
     }
 
     pause(event) {
@@ -1238,9 +1238,9 @@
         return;
       }
 
-      const order = index > activeIndex ? ORDER_NEXT : ORDER_PREV;
+      const Pedido = index > activeIndex ? Pedido_NEXT : Pedido_PREV;
 
-      this._slide(order, this._items[index]);
+      this._slide(Pedido, this._items[index]);
     } // Private
 
 
@@ -1359,8 +1359,8 @@
       return this._items.indexOf(element);
     }
 
-    _getItemByOrder(order, activeElement) {
-      const isNext = order === ORDER_NEXT;
+    _getItemByPedido(Pedido, activeElement) {
+      const isNext = Pedido === Pedido_NEXT;
       return getNextActiveElement(this._items, activeElement, isNext, this._config.wrap);
     }
 
@@ -1411,23 +1411,23 @@
       }
     }
 
-    _slide(directionOrOrder, element) {
-      const order = this._directionToOrder(directionOrOrder);
+    _slide(directionOrPedido, element) {
+      const Pedido = this._directionToPedido(directionOrPedido);
 
       const activeElement = SelectorEngine.findOne(SELECTOR_ACTIVE_ITEM, this._element);
 
       const activeElementIndex = this._getItemIndex(activeElement);
 
-      const nextElement = element || this._getItemByOrder(order, activeElement);
+      const nextElement = element || this._getItemByPedido(Pedido, activeElement);
 
       const nextElementIndex = this._getItemIndex(nextElement);
 
       const isCycling = Boolean(this._interval);
-      const isNext = order === ORDER_NEXT;
+      const isNext = Pedido === Pedido_NEXT;
       const directionalClassName = isNext ? CLASS_NAME_START : CLASS_NAME_END;
-      const orderClassName = isNext ? CLASS_NAME_NEXT : CLASS_NAME_PREV;
+      const PedidoClassName = isNext ? CLASS_NAME_NEXT : CLASS_NAME_PREV;
 
-      const eventDirectionName = this._orderToDirection(order);
+      const eventDirectionName = this._PedidoToDirection(Pedido);
 
       if (nextElement && nextElement.classList.contains(CLASS_NAME_ACTIVE$2)) {
         this._isSliding = false;
@@ -1469,15 +1469,15 @@
       };
 
       if (this._element.classList.contains(CLASS_NAME_SLIDE)) {
-        nextElement.classList.add(orderClassName);
+        nextElement.classList.add(PedidoClassName);
         reflow(nextElement);
         activeElement.classList.add(directionalClassName);
         nextElement.classList.add(directionalClassName);
 
         const completeCallBack = () => {
-          nextElement.classList.remove(directionalClassName, orderClassName);
+          nextElement.classList.remove(directionalClassName, PedidoClassName);
           nextElement.classList.add(CLASS_NAME_ACTIVE$2);
-          activeElement.classList.remove(CLASS_NAME_ACTIVE$2, orderClassName, directionalClassName);
+          activeElement.classList.remove(CLASS_NAME_ACTIVE$2, PedidoClassName, directionalClassName);
           this._isSliding = false;
           setTimeout(triggerSlidEvent, 0);
         };
@@ -1495,28 +1495,28 @@
       }
     }
 
-    _directionToOrder(direction) {
+    _directionToPedido(direction) {
       if (![DIRECTION_RIGHT, DIRECTION_LEFT].includes(direction)) {
         return direction;
       }
 
       if (isRTL()) {
-        return direction === DIRECTION_LEFT ? ORDER_PREV : ORDER_NEXT;
+        return direction === DIRECTION_LEFT ? Pedido_PREV : Pedido_NEXT;
       }
 
-      return direction === DIRECTION_LEFT ? ORDER_NEXT : ORDER_PREV;
+      return direction === DIRECTION_LEFT ? Pedido_NEXT : Pedido_PREV;
     }
 
-    _orderToDirection(order) {
-      if (![ORDER_NEXT, ORDER_PREV].includes(order)) {
-        return order;
+    _PedidoToDirection(Pedido) {
+      if (![Pedido_NEXT, Pedido_PREV].includes(Pedido)) {
+        return Pedido;
       }
 
       if (isRTL()) {
-        return order === ORDER_PREV ? DIRECTION_LEFT : DIRECTION_RIGHT;
+        return Pedido === Pedido_PREV ? DIRECTION_LEFT : DIRECTION_RIGHT;
       }
 
-      return order === ORDER_PREV ? DIRECTION_RIGHT : DIRECTION_LEFT;
+      return Pedido === Pedido_PREV ? DIRECTION_RIGHT : DIRECTION_LEFT;
     } // Static
 
 
@@ -3380,7 +3380,7 @@
     };
   }
 
-  function order(modifiers) {
+  function Pedido(modifiers) {
     var map = new Map();
     var visited = new Set();
     var result = [];
@@ -3412,12 +3412,12 @@
     return result;
   }
 
-  function orderModifiers(modifiers) {
-    // order based on dependencies
-    var orderedModifiers = order(modifiers); // order based on phase
+  function PedidoModifiers(modifiers) {
+    // Pedido based on dependencies
+    var PedidoedModifiers = Pedido(modifiers); // Pedido based on phase
 
     return modifierPhases.reduce(function (acc, phase) {
-      return acc.concat(orderedModifiers.filter(function (modifier) {
+      return acc.concat(PedidoedModifiers.filter(function (modifier) {
         return modifier.phase === phase;
       }));
     }, []);
@@ -3487,7 +3487,7 @@
 
       var state = {
         placement: 'bottom',
-        orderedModifiers: [],
+        PedidoedModifiers: [],
         options: Object.assign({}, DEFAULT_OPTIONS, defaultOptions),
         modifiersData: {},
         elements: {
@@ -3507,12 +3507,12 @@
           state.scrollParents = {
             reference: isElement(reference) ? listScrollParents(reference) : reference.contextElement ? listScrollParents(reference.contextElement) : [],
             popper: listScrollParents(popper)
-          }; // Orders the modifiers based on their dependencies and `phase`
+          }; // Pedidos the modifiers based on their dependencies and `phase`
           // properties
 
-          var orderedModifiers = orderModifiers(mergeByName([].concat(defaultModifiers, state.options.modifiers))); // Strip out disabled modifiers
+          var PedidoedModifiers = PedidoModifiers(mergeByName([].concat(defaultModifiers, state.options.modifiers))); // Strip out disabled modifiers
 
-          state.orderedModifiers = orderedModifiers.filter(function (m) {
+          state.PedidoedModifiers = PedidoedModifiers.filter(function (m) {
             return m.enabled;
           }); // Validate the provided modifiers so that the consumer will get warned
 
@@ -3555,11 +3555,11 @@
           // it doesn't persist and is fresh on each update.
           // To ensure persistent data, use `${name}#persistent`
 
-          state.orderedModifiers.forEach(function (modifier) {
+          state.PedidoedModifiers.forEach(function (modifier) {
             return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
           });
 
-          for (var index = 0; index < state.orderedModifiers.length; index++) {
+          for (var index = 0; index < state.PedidoedModifiers.length; index++) {
 
             if (state.reset === true) {
               state.reset = false;
@@ -3567,11 +3567,11 @@
               continue;
             }
 
-            var _state$orderedModifie = state.orderedModifiers[index],
-                fn = _state$orderedModifie.fn,
-                _state$orderedModifie2 = _state$orderedModifie.options,
-                _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
-                name = _state$orderedModifie.name;
+            var _state$PedidoedModifie = state.PedidoedModifiers[index],
+                fn = _state$PedidoedModifie.fn,
+                _state$PedidoedModifie2 = _state$PedidoedModifie.options,
+                _options = _state$PedidoedModifie2 === void 0 ? {} : _state$PedidoedModifie2,
+                name = _state$PedidoedModifie.name;
 
             if (typeof fn === 'function') {
               state = fn({
@@ -3607,13 +3607,13 @@
           options.onFirstUpdate(state);
         }
       }); // Modifiers have the ability to execute arbitrary code before the first
-      // update cycle runs. They will be executed in the same order as the update
+      // update cycle runs. They will be executed in the same Pedido as the update
       // cycle. This is useful when a modifier adds some persistent data that
       // other modifiers need to use, but the modifier is run after the dependent
       // one.
 
       function runModifierEffects() {
-        state.orderedModifiers.forEach(function (_ref3) {
+        state.PedidoedModifiers.forEach(function (_ref3) {
           var name = _ref3.name,
               _ref3$options = _ref3.options,
               options = _ref3$options === void 0 ? {} : _ref3$options,

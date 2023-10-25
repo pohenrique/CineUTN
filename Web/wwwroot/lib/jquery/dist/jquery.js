@@ -563,7 +563,7 @@ var i,
 	tokenCache = createCache(),
 	compilerCache = createCache(),
 	nonnativeSelectorCache = createCache(),
-	sortOrder = function( a, b ) {
+	sortPedido = function( a, b ) {
 		if ( a === b ) {
 			hasDuplicate = true;
 		}
@@ -967,7 +967,7 @@ function addHandle( attrs, handler ) {
 }
 
 /**
- * Checks document order of two siblings
+ * Checks document Pedido of two siblings
  * @param {Element} a
  * @param {Element} b
  * @returns {Number} Returns less than 0 if a precedes b, greater than 0 if a follows b
@@ -1474,8 +1474,8 @@ setDocument = Sizzle.setDocument = function( node ) {
 	/* Sorting
 	---------------------------------------------------------------------- */
 
-	// Document order sorting
-	sortOrder = hasCompare ?
+	// Document Pedido sorting
+	sortPedido = hasCompare ?
 	function( a, b ) {
 
 		// Flag for duplicate removal
@@ -1524,7 +1524,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 				return 1;
 			}
 
-			// Maintain original order
+			// Maintain original Pedido
 			return sortInput ?
 				( indexOf( sortInput, a ) - indexOf( sortInput, b ) ) :
 				0;
@@ -1694,7 +1694,7 @@ Sizzle.uniqueSort = function( results ) {
 	// Unless we *know* we can detect duplicates, assume their presence
 	hasDuplicate = !support.detectDuplicates;
 	sortInput = !support.sortStable && results.slice( 0 );
-	results.sort( sortOrder );
+	results.sort( sortPedido );
 
 	if ( hasDuplicate ) {
 		while ( ( elem = results[ i++ ] ) ) {
@@ -2912,7 +2912,7 @@ select = Sizzle.select = function( selector, context, results, seed ) {
 // One-time assignments
 
 // Sort stability
-support.sortStable = expando.split( "" ).sort( sortOrder ).join( "" ) === expando;
+support.sortStable = expando.split( "" ).sort( sortPedido ).join( "" ) === expando;
 
 // Support: Chrome 14-35+
 // Always assume duplicates if they aren't passed to the comparison function
@@ -3410,7 +3410,7 @@ jQuery.each( {
 				jQuery.uniqueSort( matched );
 			}
 
-			// Reverse order for parents* and prev-derivatives
+			// Reverse Pedido for parents* and prev-derivatives
 			if ( rparentsprev.test( name ) ) {
 				matched.reverse();
 			}
@@ -5669,14 +5669,14 @@ function leverageNative( el, type, expectSync ) {
 				// If this is an inner synthetic event for an event with a bubbling surrogate
 				// (focus or blur), assume that the surrogate already propagated from triggering the
 				// native event and prevent that from happening again here.
-				// This technically gets the ordering wrong w.r.t. to `.trigger()` (in which the
+				// This technically gets the Pedidoing wrong w.r.t. to `.trigger()` (in which the
 				// bubbling surrogate propagates *after* the non-bubbling base), but that seems
 				// less bad than duplication.
 				} else if ( ( jQuery.event.special[ type ] || {} ).delegateType ) {
 					event.stopPropagation();
 				}
 
-			// If this is a native event triggered above, everything is now in order
+			// If this is a native event triggered above, everything is now in Pedido
 			// Fire an inner synthetic event with the original arguments
 			} else if ( saved.length ) {
 
@@ -6444,10 +6444,10 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 		}
 
 		container.style.cssText = "position:absolute;left:-11111px;width:60px;" +
-			"margin-top:1px;padding:0;border:0";
+			"margin-top:1px;padding:0;bPedido:0";
 		div.style.cssText =
-			"position:relative;display:block;box-sizing:border-box;overflow:scroll;" +
-			"margin:auto;border:1px;padding:1px;" +
+			"position:relative;display:block;box-sizing:bPedido-box;overflow:scroll;" +
+			"margin:auto;bPedido:1px;padding:1px;" +
 			"width:60%;top:1%";
 		documentElement.appendChild( container ).appendChild( div );
 
@@ -6463,7 +6463,7 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 		pixelBoxStylesVal = roundPixelMeasures( divStyle.right ) === 36;
 
 		// Support: IE 9 - 11 only
-		// Detect misreporting of content dimensions for box-sizing:border-box elements
+		// Detect misreporting of content dimensions for box-sizing:bPedido-box elements
 		boxSizingReliableVal = roundPixelMeasures( divStyle.width ) === 36;
 
 		// Support: IE 9 only
@@ -6529,7 +6529,7 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 		// some versions of this test; make sure not to make it pass there!
 		//
 		// Support: Firefox 70+
-		// Only Firefox includes border widths
+		// Only Firefox includes bPedido widths
 		// in computed dimensions. (gh-4529)
 		reliableTrDimensions: function() {
 			var table, tr, trChild, trStyle;
@@ -6538,8 +6538,8 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 				tr = document.createElement( "tr" );
 				trChild = document.createElement( "div" );
 
-				table.style.cssText = "position:absolute;left:-11111px;border-collapse:separate";
-				tr.style.cssText = "border:1px solid";
+				table.style.cssText = "position:absolute;left:-11111px;bPedido-collapse:separate";
+				tr.style.cssText = "bPedido:1px solid";
 
 				// Support: Chrome 86+
 				// Height set through cssText does not get applied.
@@ -6562,8 +6562,8 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 
 				trStyle = window.getComputedStyle( tr );
 				reliableTrDimensionsVal = ( parseInt( trStyle.height, 10 ) +
-					parseInt( trStyle.borderTopWidth, 10 ) +
-					parseInt( trStyle.borderBottomWidth, 10 ) ) === tr.offsetHeight;
+					parseInt( trStyle.bPedidoTopWidth, 10 ) +
+					parseInt( trStyle.bPedidoBottomWidth, 10 ) ) === tr.offsetHeight;
 
 				documentElement.removeChild( table );
 			}
@@ -6704,13 +6704,13 @@ function setPositiveNumber( _elem, value, subtract ) {
 		value;
 }
 
-function boxModelAdjustment( elem, dimension, box, isBorderBox, styles, computedVal ) {
+function boxModelAdjustment( elem, dimension, box, isBPedidoBox, styles, computedVal ) {
 	var i = dimension === "width" ? 1 : 0,
 		extra = 0,
 		delta = 0;
 
 	// Adjustment may not be necessary
-	if ( box === ( isBorderBox ? "border" : "content" ) ) {
+	if ( box === ( isBPedidoBox ? "bPedido" : "content" ) ) {
 		return 0;
 	}
 
@@ -6721,22 +6721,22 @@ function boxModelAdjustment( elem, dimension, box, isBorderBox, styles, computed
 			delta += jQuery.css( elem, box + cssExpand[ i ], true, styles );
 		}
 
-		// If we get here with a content-box, we're seeking "padding" or "border" or "margin"
-		if ( !isBorderBox ) {
+		// If we get here with a content-box, we're seeking "padding" or "bPedido" or "margin"
+		if ( !isBPedidoBox ) {
 
 			// Add padding
 			delta += jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
 
-			// For "border" or "margin", add border
+			// For "bPedido" or "margin", add bPedido
 			if ( box !== "padding" ) {
-				delta += jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
+				delta += jQuery.css( elem, "bPedido" + cssExpand[ i ] + "Width", true, styles );
 
 			// But still keep track of it otherwise
 			} else {
-				extra += jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
+				extra += jQuery.css( elem, "bPedido" + cssExpand[ i ] + "Width", true, styles );
 			}
 
-		// If we get here with a border-box (content + padding + border), we're seeking "content" or
+		// If we get here with a bPedido-box (content + padding + bPedido), we're seeking "content" or
 		// "padding" or "margin"
 		} else {
 
@@ -6745,17 +6745,17 @@ function boxModelAdjustment( elem, dimension, box, isBorderBox, styles, computed
 				delta -= jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
 			}
 
-			// For "content" or "padding", subtract border
+			// For "content" or "padding", subtract bPedido
 			if ( box !== "margin" ) {
-				delta -= jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
+				delta -= jQuery.css( elem, "bPedido" + cssExpand[ i ] + "Width", true, styles );
 			}
 		}
 	}
 
 	// Account for positive content-box scroll gutter when requested by providing computedVal
-	if ( !isBorderBox && computedVal >= 0 ) {
+	if ( !isBPedidoBox && computedVal >= 0 ) {
 
-		// offsetWidth/offsetHeight is a rounded sum of content, padding, scroll gutter, and border
+		// offsetWidth/offsetHeight is a rounded sum of content, padding, scroll gutter, and bPedido
 		// Assuming integer scroll gutter, subtract the rest and round down
 		delta += Math.max( 0, Math.ceil(
 			elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ] -
@@ -6780,9 +6780,9 @@ function getWidthOrHeight( elem, dimension, extra ) {
 		// To avoid forcing a reflow, only fetch boxSizing if we need it (gh-4322).
 		// Fake content-box until we know it's needed to know the true value.
 		boxSizingNeeded = !support.boxSizingReliable() || extra,
-		isBorderBox = boxSizingNeeded &&
-			jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
-		valueIsBorderBox = isBorderBox,
+		isBPedidoBox = boxSizingNeeded &&
+			jQuery.css( elem, "boxSizing", false, styles ) === "bPedido-box",
+		valueIsBPedidoBox = isBPedidoBox,
 
 		val = curCSS( elem, dimension, styles ),
 		offsetProp = "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 );
@@ -6799,8 +6799,8 @@ function getWidthOrHeight( elem, dimension, extra ) {
 
 	// Support: IE 9 - 11 only
 	// Use offsetWidth/offsetHeight for when box sizing is unreliable.
-	// In those cases, the computed value can be trusted to be border-box.
-	if ( ( !support.boxSizingReliable() && isBorderBox ||
+	// In those cases, the computed value can be trusted to be bPedido-box.
+	if ( ( !support.boxSizingReliable() && isBPedidoBox ||
 
 		// Support: IE 10 - 11+, Edge 15 - 18+
 		// IE/Edge misreport `getComputedStyle` of table rows with width/height
@@ -6819,13 +6819,13 @@ function getWidthOrHeight( elem, dimension, extra ) {
 		// Make sure the element is visible & connected
 		elem.getClientRects().length ) {
 
-		isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
+		isBPedidoBox = jQuery.css( elem, "boxSizing", false, styles ) === "bPedido-box";
 
-		// Where available, offsetWidth/offsetHeight approximate border box dimensions.
+		// Where available, offsetWidth/offsetHeight approximate bPedido box dimensions.
 		// Where not available (e.g., SVG), assume unreliable box-sizing and interpret the
 		// retrieved value as a content box dimension.
-		valueIsBorderBox = offsetProp in elem;
-		if ( valueIsBorderBox ) {
+		valueIsBPedidoBox = offsetProp in elem;
+		if ( valueIsBPedidoBox ) {
 			val = elem[ offsetProp ];
 		}
 	}
@@ -6838,8 +6838,8 @@ function getWidthOrHeight( elem, dimension, extra ) {
 		boxModelAdjustment(
 			elem,
 			dimension,
-			extra || ( isBorderBox ? "border" : "content" ),
-			valueIsBorderBox,
+			extra || ( isBPedidoBox ? "bPedido" : "content" ),
+			valueIsBPedidoBox,
 			styles,
 
 			// Provide the current computed size to request scroll gutter calculation (gh-3589)
@@ -6882,7 +6882,7 @@ jQuery.extend( {
 		"gridRowStart": true,
 		"lineHeight": true,
 		"opacity": true,
-		"order": true,
+		"Pedido": true,
 		"orphans": true,
 		"widows": true,
 		"zIndex": true,
@@ -7045,25 +7045,25 @@ jQuery.each( [ "height", "width" ], function( _i, dimension ) {
 
 				// To avoid forcing a reflow, only fetch boxSizing if we need it (gh-3991)
 				boxSizingNeeded = scrollboxSizeBuggy || extra,
-				isBorderBox = boxSizingNeeded &&
-					jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
+				isBPedidoBox = boxSizingNeeded &&
+					jQuery.css( elem, "boxSizing", false, styles ) === "bPedido-box",
 				subtract = extra ?
 					boxModelAdjustment(
 						elem,
 						dimension,
 						extra,
-						isBorderBox,
+						isBPedidoBox,
 						styles
 					) :
 					0;
 
-			// Account for unreliable border-box dimensions by comparing offset* to computed and
-			// faking a content-box to get border and padding (gh-3699)
-			if ( isBorderBox && scrollboxSizeBuggy ) {
+			// Account for unreliable bPedido-box dimensions by comparing offset* to computed and
+			// faking a content-box to get bPedido and padding (gh-3699)
+			if ( isBPedidoBox && scrollboxSizeBuggy ) {
 				subtract -= Math.ceil(
 					elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ] -
 					parseFloat( styles[ dimension ] ) -
-					boxModelAdjustment( elem, dimension, "border", false, styles ) -
+					boxModelAdjustment( elem, dimension, "bPedido", false, styles ) -
 					0.5
 				);
 			}
@@ -7098,7 +7098,7 @@ jQuery.cssHooks.marginLeft = addGetHookIf( support.reliableMarginLeft,
 jQuery.each( {
 	margin: "",
 	padding: "",
-	border: "Width"
+	bPedido: "Width"
 }, function( prefix, suffix ) {
 	jQuery.cssHooks[ prefix + suffix ] = {
 		expand: function( value ) {
@@ -8240,7 +8240,7 @@ jQuery.each( [
 	"rowSpan",
 	"colSpan",
 	"useMap",
-	"frameBorder",
+	"frameBPedido",
 	"contentEditable"
 ], function() {
 	jQuery.propFix[ this.toLowerCase() ] = this;
@@ -8812,7 +8812,7 @@ jQuery.fn.extend( {
 //
 // Support: Chrome <=48 - 49, Safari <=9.0 - 9.1
 // focus(in | out) events fire after focus & blur events,
-// which is spec violation - http://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent-event-order
+// which is spec violation - http://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent-event-Pedido
 // Related ticket - https://bugs.chromium.org/p/chromium/issues/detail?id=449857
 if ( !support.focusin ) {
 	jQuery.each( { focus: "focusin", blur: "focusout" }, function( orig, fix ) {
@@ -9528,7 +9528,7 @@ jQuery.extend( {
 		// Extract dataTypes list
 		s.dataTypes = ( s.dataType || "*" ).toLowerCase().match( rnothtmlwhite ) || [ "" ];
 
-		// A cross-domain request is in order when the origin doesn't match the current origin.
+		// A cross-domain request is in Pedido when the origin doesn't match the current origin.
 		if ( s.crossDomain == null ) {
 			urlAnchor = document.createElement( "a" );
 
@@ -10483,7 +10483,7 @@ jQuery.offset = {
 
 jQuery.fn.extend( {
 
-	// offset() relates an element's border box to the document origin
+	// offset() relates an element's bPedido box to the document origin
 	offset: function( options ) {
 
 		// Preserve chaining for setter
@@ -10551,10 +10551,10 @@ jQuery.fn.extend( {
 			}
 			if ( offsetParent && offsetParent !== elem && offsetParent.nodeType === 1 ) {
 
-				// Incorporate borders into its offset, since they are outside its content origin
+				// Incorporate bPedidos into its offset, since they are outside its content origin
 				parentOffset = jQuery( offsetParent ).offset();
-				parentOffset.top += jQuery.css( offsetParent, "borderTopWidth", true );
-				parentOffset.left += jQuery.css( offsetParent, "borderLeftWidth", true );
+				parentOffset.top += jQuery.css( offsetParent, "bPedidoTopWidth", true );
+				parentOffset.left += jQuery.css( offsetParent, "bPedidoLeftWidth", true );
 			}
 		}
 
@@ -10653,7 +10653,7 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 		// Margin is only for outerHeight, outerWidth
 		jQuery.fn[ funcName ] = function( margin, value ) {
 			var chainable = arguments.length && ( defaultExtra || typeof margin !== "boolean" ),
-				extra = defaultExtra || ( margin === true || value === true ? "margin" : "border" );
+				extra = defaultExtra || ( margin === true || value === true ? "margin" : "bPedido" );
 
 			return access( this, function( elem, type, value ) {
 				var doc;
