@@ -5,9 +5,14 @@
 }
 
 <h1>Index</h1>
-
 <p>
-    <a asp-action="Create">Create New</a>
+    <div class="row">
+        <div class="col-sm">
+            <a asp-action="Create" class="btn btn-primary">Nueva Lista</a>
+            &nbsp;&nbsp;
+            <a asp-action="ImportarListaPrecio" class="btn btn-success">Importar Lista</a>
+        </div>
+    </div>
 </p>
 <table class="table">
     <thead>
@@ -57,3 +62,58 @@
 }
     </tbody>
 </table>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+        function mostrarDatos() {
+            const input = document.getElementById("inputExcel")
+
+            const formData = new FormData()
+
+            formData.append("ArchivoExcel", input.files[0])
+
+            fetch("/ListaPrecios/MostrarDatos",
+                {
+                    method: "POST",
+                    body: formData
+                })
+                .then((response) => { return response.json() })
+                .then((dataJson) => {
+                    dataJson.forEach((item) => {
+                        $("#tbData tbody").append(
+                            $("<tr>").append(
+                                $("<td>").text(item.Descripcion),
+                                $("<td>").text(item.FechaHasta),
+                                $("<td>").text(item.CondicionPagoRefId),
+                                $("<td>").text(item.Precio)
+                            )
+                        )
+                    })
+                })
+        }
+
+
+        function enviarDatos() {
+            const input = document.getElementById("inputExcel")
+
+            const formData = new FormData()
+
+            formData.append("ArchivoExcel", input.files[0])
+
+            fetch("ListaPrecios/EnviarDatos", {
+                method: "POST",
+                body: formData
+            })
+                .then((response) => { return response.json() })
+                .then((dataJson) => {
+                    alert(dataJson.mensaje);
+                })
+        }
+
+    </script>
+}

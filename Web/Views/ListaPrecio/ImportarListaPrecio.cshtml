@@ -1,0 +1,110 @@
+﻿@model IEnumerable<Web.Models.ListaPrecio>
+
+@{
+    ViewData["Title"] = "Importar Lista";
+}
+
+
+<div class="row">
+    <div class="col-sm-12">
+
+        <div class="card">
+            <div class="card-header"> Cargar Excel</div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <input class="form-control-file" type="file" id="inputExcel" />
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-warning" onclick="mostrarDatos();">Mostrar Datos</button>
+                        <button class="btn btn-success" onclick="enviarDatos();">Enviar Datos a BD</button>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="tbData" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th>Fecha Hasta</th>
+                                    <th>Condición Pago</th>
+                                    <th>Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>
+    <div class="row">
+        <div class="col-sm">
+            <a class="btn btn-info" asp-action="Index">Volver</a>
+        </div>
+    </div>
+</p>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+        function mostrarDatos() {
+            const input = document.getElementById("inputExcel")
+
+            const formData = new FormData()
+
+            formData.append("ArchivoExcel", input.files[0])
+
+            fetch("/ListaPrecio/MostrarDatos",
+            { 
+                    method: "POST", 
+                    body: formData 
+            })
+            .then((response) => { return response.json() })
+            .then((dataJson) => {
+                    dataJson.forEach((item) => {
+                        $("#tbData tbody").append(
+                            $("<tr>").append(
+                                $("<td>").text(item.descripcion),
+                                $("<td>").text(item.fechaHasta),
+                                $("<td>").text(item.condicionPagoRefId),
+                                $("<td>").text(item.precio)
+                            )
+                        )
+                    })
+                })
+        }
+
+
+        function enviarDatos() {
+            const input = document.getElementById("inputExcel")
+
+            const formData = new FormData()
+
+            formData.append("ArchivoExcel", input.files[0])
+
+            fetch("/ListaPrecio/EnviarDatos", {
+                method: "POST",
+                body: formData
+            })
+                .then((response) => { return response.json() })
+                .then((dataJson) => {
+                    alert(dataJson.mensaje);
+                })
+        }
+
+    </script>
+}
