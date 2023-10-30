@@ -1,24 +1,31 @@
-﻿@model IEnumerable<Web.Models.ListaPrecio>
+﻿@model Web.Models.ListaPrecio
 
 @{
     ViewData["Title"] = "Importar Lista";
 }
 
-
 <div class="row">
     <div class="col-sm-12">
-
+        
         <div class="card">
-            <div class="card-header"> Cargar Excel</div>
+            <div class="card-header"> Importar Lista</div>
             <div class="card-body">
 
                 <div class="row">
                     <div class="col-sm-4">
                         <input class="form-control-file" type="file" id="inputExcel" />
+                        <span class="text-danger" id="errorFile"></span>
                     </div>
-                    <div class="col-sm-4">
-                        <button class="btn btn-warning" onclick="mostrarDatos();">Mostrar Datos</button>
-                        <button class="btn btn-success" onclick="enviarDatos();">Enviar Datos a BD</button>
+                    <div class="col-sm-6">
+                        <button class="btn btn-warning" onclick="mostrarDatos();">Mostrar datos</button>
+                        <button class="btn btn-danger" onclick="limpiarDatos();">Limpiar datos</button>
+                        <button class="btn btn-success" onclick="enviarDatos();">Importar datos </button>
+                    </div>
+
+                    <div class="col-sm-2">
+                 
+                        <a class="btn btn-info" asp-action="DownloadFile">Descargar Padrón</a>
+
                     </div>
                 </div>
 
@@ -26,6 +33,7 @@
 
                 <div class="row">
                     <div class="col-sm-12">
+                        <span class="text-danger" id="importStatus"></span>
                         <table id="tbData" class="table table-striped">
                             <thead>
                                 <tr>
@@ -60,51 +68,81 @@
     }
 
     <script>
-
+        
         function mostrarDatos() {
             const input = document.getElementById("inputExcel")
-
-            const formData = new FormData()
-
-            formData.append("ArchivoExcel", input.files[0])
-
-            fetch("/ListaPrecio/MostrarDatos",
-            { 
-                    method: "POST", 
-                    body: formData 
-            })
-            .then((response) => { return response.json() })
-            .then((dataJson) => {
-                    dataJson.forEach((item) => {
-                        $("#tbData tbody").append(
-                            $("<tr>").append(
-                                $("<td>").text(item.descripcion),
-                                $("<td>").text(item.fechaHasta),
-                                $("<td>").text(item.condicionPagoRefId),
-                                $("<td>").text(item.precio)
-                            )
-                        )
+            if (input.files[0] != null) {
+                document.getElementById("errorFile").textContent = "";
+                document.getElementById("importStatus").textContent = "";
+                const formData = new FormData()
+                formData.append("ArchivoExcel", input.files[0])
+                fetch("/ListaPrecio/MostrarDatos",
+                    {
+                        method: "POST",
+                        body: formData
                     })
-                })
+                    .then((response) => { return response.json() })
+                    .then((dataJson) => {
+                        dataJson.forEach((item) => {
+                            $("#tbData tbody").append(
+                                $("<tr>").append(
+                                    $("<td>").text(item.descripcion),
+                                    $("<td>").text(item.fechaHasta),
+                                    $("<td>").text(item.condicionPagoRefId),
+                                    $("<td>").text(item.precio)
+                                )
+                            )
+                        })
+                    })
+            } else {
+                document.getElementById("errorFile").textContent = "Seleccionar un archivo Excel";
+                document.getElementById("importStatus").textContent = "";
+
+            }
+            
         }
 
 
         function enviarDatos() {
             const input = document.getElementById("inputExcel")
+            if (input.files[0] != null && $('#tbData tbody tr').length > 0) {
+                const formData = new FormData()
 
-            const formData = new FormData()
+                formData.append("ArchivoExcel", input.files[0])
 
-            formData.append("ArchivoExcel", input.files[0])
-
-            fetch("/ListaPrecio/EnviarDatos", {
-                method: "POST",
-                body: formData
-            })
-                .then((response) => { return response.json() })
-                .then((dataJson) => {
-                    alert(dataJson.mensaje);
+                fetch("/ListaPrecio/EnviarDatos", {
+                    method: "POST",
+                    body: formData
                 })
+                    .then((response) => { return response.json() })
+                    .then((dataJson) => {
+                        $("#tbData tbody tr").remove();
+                        document.getElementById("importStatus").textContent = "Registros importados con éxito!";
+                    })
+            }
+            else {
+
+                document.getElementById("errorFile").textContent = "Seleccionar un archivo Excel y cargalo en la grilla";
+                document.getElementById("importStatus").textContent = "";
+
+            }
+            
         }
+
+
+        function limpiarDatos() {
+
+            if ($('#tbData tbody tr').length > 0) {
+                $("#tbData tbody tr").remove();
+            }
+            else {
+                document.getElementById("errorFile").textContent = "";
+                document.getElementById("importStatus").textContent = "No hay registros para limpiar!";
+            }
+            
+        }
+
+
 
     </script>
 }

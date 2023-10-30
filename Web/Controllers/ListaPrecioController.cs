@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Web.Models;
 using Web.Repos;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
+using System.Net.Http.Headers;
+using System;
 
 namespace Web.Controllers
 {
@@ -15,9 +18,12 @@ namespace Web.Controllers
     {
         private readonly CineUTNContext _context;
 
-        public ListaPrecioController(CineUTNContext context)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ListaPrecioController(CineUTNContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
+
         }
 
         // GET: ListaPrecio
@@ -176,90 +182,113 @@ namespace Web.Controllers
 
         public IActionResult ImportarListaPrecio()
         {
+
             return View();
         }
 
         [HttpPost, ActionName("MostrarDatos")]
         public IActionResult MostrarDatos([FromForm] IFormFile ArchivoExcel)
         {
-            Stream stream = ArchivoExcel.OpenReadStream();
+            if (ArchivoExcel != null) {
+                Stream stream = ArchivoExcel.OpenReadStream();
 
-            IWorkbook MiExcel = null;
+                IWorkbook MiExcel = null;
 
-            if (Path.GetExtension(ArchivoExcel.FileName) == ".xlsx")
-            {
-                MiExcel = new XSSFWorkbook(stream);
-            }
+                if (Path.GetExtension(ArchivoExcel.FileName) == ".xlsx")
+                {
+                    MiExcel = new XSSFWorkbook(stream);
+                }
+                else
+                {
+                    MiExcel = new HSSFWorkbook(stream);
+                }
+
+                ISheet HojaExcel = MiExcel.GetSheetAt(0);
+
+                int cantidadFilas = HojaExcel.LastRowNum;
+
+                List<ListaPrecio> lista = new List<ListaPrecio>();
+
+                for (int i = 1; i <= cantidadFilas; i++)
+                {
+
+                    IRow fila = HojaExcel.GetRow(i);
+
+                    lista.Add(new ListaPrecio
+                    {
+                        Descripcion = fila.GetCell(0).ToString(),
+                        FechaHasta = DateTime.Parse(fila.GetCell(1).ToString()),
+                        CondicionPagoRefId = Int16.Parse(fila.GetCell(2).ToString()),
+                        Precio = Decimal.Parse(fila.GetCell(3).ToString()),
+                        FechaRegistro = DateTime.Now
+
+                    });
+                }
+
+                return StatusCode(StatusCodes.Status200OK, lista);
+            } 
             else
             {
-                MiExcel = new HSSFWorkbook(stream);
+ 
+                return View();
             }
-
-            ISheet HojaExcel = MiExcel.GetSheetAt(0);
-
-            int cantidadFilas = HojaExcel.LastRowNum;
-
-            List<ListaPrecio> lista = new List<ListaPrecio>();
-
-            for (int i = 1; i <= cantidadFilas; i++)
-            {
-
-                IRow fila = HojaExcel.GetRow(i);
-
-                lista.Add(new ListaPrecio
-                {
-                    Descripcion = fila.GetCell(0).ToString(),
-                    FechaHasta = DateTime.Parse(fila.GetCell(1).ToString()),
-                    CondicionPagoRefId = Int16.Parse(fila.GetCell(2).ToString()),
-                    Precio = Decimal.Parse(fila.GetCell(3).ToString()),
-                    FechaRegistro = DateTime.Now
-
-                });
-            }
-
-            return StatusCode(StatusCodes.Status200OK, lista);
+            
         }
 
         [HttpPost, ActionName("EnviarDatos")]
         public IActionResult EnviarDatos([FromForm] IFormFile ArchivoExcel)
         {
-            Stream stream = ArchivoExcel.OpenReadStream();
-
-            IWorkbook MiExcel = null;
-
-            if (Path.GetExtension(ArchivoExcel.FileName) == ".xlsx")
+            if (ArchivoExcel != null)
             {
-                MiExcel = new XSSFWorkbook(stream);
+                Stream stream = ArchivoExcel.OpenReadStream();
+
+                IWorkbook MiExcel = null;
+
+                if (Path.GetExtension(ArchivoExcel.FileName) == ".xlsx")
+                {
+                    MiExcel = new XSSFWorkbook(stream);
+                }
+                else
+                {
+                    MiExcel = new HSSFWorkbook(stream);
+                }
+
+                ISheet HojaExcel = MiExcel.GetSheetAt(0);
+
+                int cantidadFilas = HojaExcel.LastRowNum;
+                List<ListaPrecio> lista = new List<ListaPrecio>();
+
+                for (int i = 1; i <= cantidadFilas; i++)
+                {
+
+                    IRow fila = HojaExcel.GetRow(i);
+
+                    lista.Add(new ListaPrecio
+                    {
+                        Descripcion = fila.GetCell(0).ToString(),
+                        FechaHasta = DateTime.Parse(fila.GetCell(1).ToString()),
+                        CondicionPagoRefId = Int16.Parse(fila.GetCell(2).ToString()),
+                        Precio = Decimal.Parse(fila.GetCell(3).ToString()),
+                        FechaRegistro = DateTime.Now
+
+                    });
+                }
+
+                _context.BulkInsert(lista);
+
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = "ok" });
             }
             else
             {
-                MiExcel = new HSSFWorkbook(stream);
+                return View();
             }
 
-            ISheet HojaExcel = MiExcel.GetSheetAt(0);
+        }
 
-            int cantidadFilas = HojaExcel.LastRowNum;
-            List<ListaPrecio> lista = new List<ListaPrecio>();
-
-            for (int i = 1; i <= cantidadFilas; i++)
-            {
-
-                IRow fila = HojaExcel.GetRow(i);
-
-                lista.Add(new ListaPrecio
-                {
-                    Descripcion = fila.GetCell(0).ToString(),
-                    FechaHasta = DateTime.Parse(fila.GetCell(1).ToString()),
-                    CondicionPagoRefId = Int16.Parse(fila.GetCell(2).ToString()),
-                    Precio = Decimal.Parse(fila.GetCell(3).ToString()),
-                    FechaRegistro = DateTime.Now
-
-                });
-            }
-
-            _context.BulkInsert(lista);
-
-            return StatusCode(StatusCodes.Status200OK, new { mensaje = "ok" });
+        public IActionResult DownloadFile()
+        {
+            var filepath = Path.Combine(_webHostEnvironment.WebRootPath, "archivos", "ListaDePrecios.xlsx");
+            return File(System.IO.File.ReadAllBytes(filepath), "application/vnd.ms-excel", System.IO.Path.GetFileName(filepath));
         }
 
     }
