@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web.Repos;
 
@@ -11,9 +12,11 @@ using Web.Repos;
 namespace Web.Migrations
 {
     [DbContext(typeof(CineUTNContext))]
-    partial class CineUTNContextModelSnapshot : ModelSnapshot
+    [Migration("20231030195203_func_rm")]
+    partial class func_rm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,61 +44,6 @@ namespace Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CondicionPago");
-                });
-
-            modelBuilder.Entity("Web.Models.Funcion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("FechaHoraFuncion")
-                        .HasColumnType("smalldatetime");
-
-                    b.Property<DateTime?>("FechaRegistro")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("PeliculaRefId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SalaRefId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PeliculaRefId");
-
-                    b.HasIndex("SalaRefId");
-
-                    b.ToTable("Funcion");
-                });
-
-            modelBuilder.Entity("Web.Models.FuncionTarifa", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("FuncionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TarifaRefId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FuncionId");
-
-                    b.HasIndex("TarifaRefId");
-
-                    b.ToTable("FuncionTarifa");
                 });
 
             modelBuilder.Entity("Web.Models.ListaPrecio", b =>
@@ -440,34 +388,6 @@ namespace Web.Migrations
                     b.ToTable("Genero");
                 });
 
-            modelBuilder.Entity("Web.Models.Funcion", b =>
-                {
-                    b.HasOne("Web.Models.Pelicula", "Pelicula")
-                        .WithMany()
-                        .HasForeignKey("PeliculaRefId");
-
-                    b.HasOne("Web.Models.Sala", "Sala")
-                        .WithMany()
-                        .HasForeignKey("SalaRefId");
-
-                    b.Navigation("Pelicula");
-
-                    b.Navigation("Sala");
-                });
-
-            modelBuilder.Entity("Web.Models.FuncionTarifa", b =>
-                {
-                    b.HasOne("Web.Models.Funcion", null)
-                        .WithMany("Tarifas")
-                        .HasForeignKey("FuncionId");
-
-                    b.HasOne("Web.Models.Tarifa", "Tarifa")
-                        .WithMany()
-                        .HasForeignKey("TarifaRefId");
-
-                    b.Navigation("Tarifa");
-                });
-
             modelBuilder.Entity("Web.Models.ListaPrecio", b =>
                 {
                     b.HasOne("Web.Models.CondicionPago", "CondicionPago")
@@ -578,11 +498,6 @@ namespace Web.Migrations
                         .HasForeignKey("ListaPrecioRefId");
 
                     b.Navigation("ListaPrecio");
-                });
-
-            modelBuilder.Entity("Web.Models.Funcion", b =>
-                {
-                    b.Navigation("Tarifas");
                 });
 
             modelBuilder.Entity("Web.Models.Pedido", b =>

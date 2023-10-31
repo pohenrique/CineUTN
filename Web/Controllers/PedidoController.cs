@@ -151,6 +151,7 @@ namespace Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var Pedido = await _context.Pedidos.Include(t => t.Items).FirstOrDefaultAsync(t => t.Id == id);
+            _context.PedidoItens.RemoveRange(Pedido.Items);
             _context.Pedidos.Remove(Pedido);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

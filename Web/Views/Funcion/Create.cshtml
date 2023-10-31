@@ -1,0 +1,80 @@
+﻿@model Web.Models.Funcion
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="card">
+    <div class="card-header">
+        <b>Programar Funciones</b>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" id="form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <span class="text-danger">@Html.ValidationMessageFor(m => m.ValidationError)</span>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="FechaHoraFuncion" class="control-label"></label>
+                    <input asp-for="FechaHoraFuncion" class="form-control" />
+                    <span asp-validation-for="FechaHoraFuncion" class="text-danger"></span>
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="PeliculaRefId" class="control-label"></label>
+                    <select asp-for="PeliculaRefId" class="form-control" asp-items="ViewBag.PeliculaRefId">
+                        <option>Seleccione una pelicula</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="SalaRefId" class="control-label"></label>
+                    <select asp-for="SalaRefId" class="form-control" asp-items="ViewBag.SalaRefId">
+                        <option>Seleccione una sala</option>
+                    </select>
+                </div>
+               
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    </br>
+                    <input class="btn btn-success" type="button" id="btnAdd" value="+ Agregar Tarifas" />
+                    
+                </div>
+            </div>
+            <div class="form-row">
+                <div id="FuncionTarifasContainer" class="form-group col-md-6">
+                    @Html.EditorFor(model => model.Tarifas)
+                </div>
+            </div>
+
+
+            </br>
+            <div class="card-footer row justify-content-md-center">
+                &nbsp;<input type="submit" value="Create" id="submit" class="btn btn-primary" />&nbsp;
+                &nbsp;<a class="btn btn-info" asp-action="Index">Volver</a>&nbsp;
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $("#btnAdd").on('click', function () {
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/Funcion/AddFuncionTarifa',
+                success: function (partialView) {
+                    console.log("partialView: " + partialView);
+                    $('#FuncionTarifasContainer').html(partialView);
+                }
+            });
+        });
+    </script>
+}

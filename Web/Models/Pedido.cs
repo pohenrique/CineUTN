@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public bool IsUrgent { get; set; }
-        public List<PedidoItem> Items { get; set; }
+        public virtual List<PedidoItem> Items { get; set; }
         public DateTime Created { get; set; }
 
         //This should be in ViewModel

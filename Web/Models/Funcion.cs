@@ -1,17 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using Web.Repos.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Web.Models
 {
     [Table("Funcion")]
     public class Funcion
     {
-        [Key]
-        [Column("ID")]
         public int Id { get; set; }
 
-        [Display(Name = "Película")]
+        [Display(Name = "Fecha/Hora Función")]
+        [Column(TypeName = "smalldatetime")]
+        [DataType(DataType.DateTime)]
+        public DateTime? FechaHoraFuncion { get; set; }
+
+        [Display(Name = "Pelicula")]
         public int? PeliculaRefId { get; set; }
         [ForeignKey("PeliculaRefId")]
         public virtual Pelicula? Pelicula { get; set; }
@@ -21,19 +23,21 @@ namespace Web.Models
         [ForeignKey("SalaRefId")]
         public virtual Sala? Sala { get; set; }
 
-        [Display(Name = "Tarifa")]
-        public int? TarifaRefId { get; set; }
-        [ForeignKey("TarifaRefId")]
-        public virtual Tarifa? Tarifa { get; set; }
+        public virtual List<FuncionTarifa> Tarifas { get; set; }
 
-        [Display(Name = "Fecha/Hora")]
-        [Column(TypeName = "smalldatetime")]
-        public DateTime? FechaHoraFuncion { get; set; }
+        public DateTime? FechaRegistro { get; set; } = DateTime.Now;
 
-        [Display(Name = "Subtitulada")]
-        public bool? Subtitulada { get; set; }
+        [NotMapped]
+        public string? ValidationError { get; set; }
 
-        [Column(TypeName = "smalldatetime")]
-        public DateTime? FechaRegistro { get; set; }
+        public int NumberOfTarifas
+        {
+            get => Tarifas.Count;
+        }
+
+        public Funcion()
+        {
+            Tarifas = new List<FuncionTarifa>();
+        }
     }
 }

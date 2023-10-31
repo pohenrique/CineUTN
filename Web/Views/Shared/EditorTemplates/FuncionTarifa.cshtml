@@ -1,0 +1,13 @@
+﻿@model Web.Models.FuncionTarifa
+ </br>
+<div class="form-row">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group col-md-6">
+       
+        <select asp-for="TarifaRefId" class="form-control" asp-items="ViewBag.TarifaRefId">
+            <option>Seleccione una tarifa</option>
+        </select>
+        <span asp-validation-for="TarifaRefId" class="text-danger"></span>
+       
+    </div>
+</div>
