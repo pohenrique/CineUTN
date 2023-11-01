@@ -95,7 +95,7 @@ namespace Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FechaHoraFuncion,PeliculaRefId,SalaRefId,FechaRegistro,Tarifas")] Funcion funcion)
+        public async Task<IActionResult> Create([Bind("Id,FechaHoraFuncion,PeliculaRefId,SalaRefId,Tarifas")] Funcion funcion)
         {
             var coincideTipoSalaPelicula = true;
             if (funcion.PeliculaRefId.HasValue && funcion.SalaRefId.HasValue)
