@@ -2,49 +2,83 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>Funcion</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<div class="card">
+    <div class="card-header">
+        <b>Programar Funciones</b>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit" id="form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="FechaHoraFuncion" class="control-label"></label>
-                <input asp-for="FechaHoraFuncion" class="form-control" />
-                <span asp-validation-for="FechaHoraFuncion" class="text-danger"></span>
+            <input asp-for="NumberOfTarifas" type="hidden" id="numberOfTarifas" />
+            
+            <span class="text-danger">@Html.ValidationMessageFor(m => m.ValidationError)</span>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="FechaHoraFuncion" class="control-label"></label>
+                    <input asp-for="FechaHoraFuncion" class="form-control" />
+                    <span asp-validation-for="FechaHoraFuncion" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="PeliculaRefId" class="control-label"></label>
+                    <select asp-for="PeliculaRefId" class="form-control" asp-items="ViewBag.PeliculaRefId">
+                        <option value="">Seleccione una pelicula</option>
+                    </select>
+                    <span asp-validation-for="PeliculaRefId" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="PeliculaRefId" class="control-label"></label>
-                <select asp-for="PeliculaRefId" class="form-control" asp-items="ViewBag.PeliculaRefId"></select>
-                <span asp-validation-for="PeliculaRefId" class="text-danger"></span>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="SalaRefId" class="control-label"></label>
+                    <select asp-for="SalaRefId" class="form-control" asp-items="ViewBag.SalaRefId">
+                        <option value="">Seleccione una sala</option>
+                    </select>
+                    <span asp-validation-for="SalaRefId" class="text-danger"></span>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="SalaRefId" class="control-label"></label>
-                <select asp-for="SalaRefId" class="form-control" asp-items="ViewBag.SalaRefId"></select>
-                <span asp-validation-for="SalaRefId" class="text-danger"></span>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    </br>
+                    <input class="btn btn-success" type="button" id="btnAdd" value="+ Agregar Tarifas" />
+
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="FechaRegistro" class="control-label"></label>
-                <input asp-for="FechaRegistro" class="form-control" />
-                <span asp-validation-for="FechaRegistro" class="text-danger"></span>
+            <div class="form-row">
+                <div id="FuncionTarifasContainer" class="form-group col-md-6">
+                    @Html.EditorFor(model => model.Tarifas)
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+
+            </br>
+            <div class="card-footer row justify-content-md-center">
+                &nbsp;<input type="submit" value="Modificar" id="submit" class="btn btn-primary" />&nbsp;
+                &nbsp;<a class="btn btn-info" asp-action="Index">Volver</a>&nbsp;
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $("#btnAdd").on('click', function () {
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/Funcion/AddFuncionTarifa',
+                success: function (partialView) {
+                    console.log("partialView: " + partialView);
+                    $('#FuncionTarifasContainer').html(partialView);
+                }
+            });
+        });        
+    </script>
 }

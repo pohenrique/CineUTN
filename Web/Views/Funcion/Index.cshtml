@@ -4,12 +4,33 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Index</h1>
-
 <p>
-    <a asp-action="Create">Create New</a>
+    <div class="row">
+        <div class="col-sm">
+            <a asp-action="Create" class="btn btn-primary">Programar Función</a>
+        </div>
+    </div>
 </p>
+<form asp-action ="Index" method="get">
+    <div class="row">
+        <div class="col">
+            <label class="control-label">Película:</label>
+            <select name="PeliculaRefId" class="form-control" asp-items="ViewBag.PeliculaRefId">
+                <option value="">Seleccione una pelicula</option>
+            </select>
+        </div>
+        <div class="col">
+            <label class="control-label">Sala:</label>
+            <select name="SalaRefId" class="form-control" asp-items="ViewBag.SalaRefId">
+                <option value="">Seleccione una sala</option>
+            </select>
+        </div>
+        <div class="col">
+            <br />
+            <input type="submit" value="Buscar" id="submit" class="btn btn-warning"/>
+        </div>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>

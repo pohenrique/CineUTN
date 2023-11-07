@@ -1,43 +1,66 @@
 ﻿@model Web.Models.Funcion
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Details</h1>
+<div class="card">
+    <div class="card-header">
+        <b>Programar Funciones</b>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit" id="form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input asp-for="NumberOfTarifas" type="hidden" id="numberOfTarifas" />
 
-<div>
-    <h4>Funcion</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaHoraFuncion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaHoraFuncion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pelicula)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pelicula.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sala)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Sala.Descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaRegistro)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaRegistro)
-        </dd>
-    </dl>
+            <span class="text-danger">@Html.ValidationMessageFor(m => m.ValidationError)</span>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="FechaHoraFuncion" class="control-label"></label>
+                    <input asp-for="FechaHoraFuncion" readonly class="form-control" />
+                    <span asp-validation-for="FechaHoraFuncion" class="text-danger"></span>
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="PeliculaRefId" class="control-label"></label>
+                    <select asp-for="PeliculaRefId" class="form-control" readonly asp-items="ViewBag.PeliculaRefId">
+                        <option>Seleccione una pelicula</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="SalaRefId" class="control-label"></label>
+                    <select asp-for="SalaRefId" class="form-control" readonly asp-items="ViewBag.SalaRefId">
+                        <option>Seleccione una sala</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div id="FuncionTarifasContainer" class="form-group col-md-6">
+                    @Html.EditorFor(model => model.Tarifas, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+
+
+            </br>
+            <div class="card-footer row justify-content-md-center">
+                &nbsp;<a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Modificar</a> &nbsp;
+                &nbsp;<a class="btn btn-info" asp-action="Index">Volver</a>&nbsp;
+            </div>
+        </form>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(function () { $('#form :input').attr("disabled", true); });
+    </script>
+}
