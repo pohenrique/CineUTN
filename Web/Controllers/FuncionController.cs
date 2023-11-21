@@ -29,6 +29,10 @@ namespace Web.Controllers
 
             var cineUTNContext = _context.Funciones
                                     .Include(f => f.Tarifas)
+                                    .ThenInclude(fv => fv.Tarifa)
+                                    .ThenInclude(fvu => fvu.ListaPrecio)
+                                    .Include(f => f.Pelicula)
+                                    .Include(f => f.Pelicula.Tipo)
                                     .Include(f => f.Pelicula)
                                     .Include(f => f.Pelicula.Tipo)
                                     .Include(f => f.Sala)
